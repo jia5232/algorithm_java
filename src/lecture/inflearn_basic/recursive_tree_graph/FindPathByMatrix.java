@@ -1,6 +1,10 @@
 package lecture.inflearn_basic.recursive_tree_graph;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 // 인접행렬 사용
 public class FindPathByMatrix {
@@ -21,16 +25,18 @@ public class FindPathByMatrix {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt(); //총 노드의 개수
-        m = sc.nextInt(); //간선의 개수
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken()); //총 노드의 개수
+        m = Integer.parseInt(st.nextToken()); //간선의 개수
         graph = new int[n+1][n+1]; //노드들의 연결정보를 기록
         ch = new int[n+1]; //방문했는지 여부 체크!
         for (int i = 0; i < m; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            graph[a][b] = 1; //a->b로 간다
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            graph[a][b] = 1;
         }
         ch[1] = 1; //1번 노드가 출발점이므로 체크!
         DFS(1);

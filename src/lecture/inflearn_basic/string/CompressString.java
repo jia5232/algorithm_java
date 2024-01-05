@@ -1,24 +1,31 @@
 package lecture.inflearn_basic.string;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class CompressString {
-    public static String solution(String str){
-        str+=" "; //뒤에 빈문자 하나 추가!
-        String result = "";
+    public static String solution(char[] arr){
+        String answer = String.valueOf(arr[0]);
         int cnt = 1;
-        for (int i = 0; i < str.length()-1; i++) {
-            if(str.charAt(i)==str.charAt(i+1)) cnt++;
+        char tmp = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if(arr[i] == tmp) cnt++;
             else{
-                result+=str.charAt(i);
-                if(cnt>1) result+=String.valueOf(cnt);
-                cnt = 1;
+                if(cnt>1){
+                    answer+=cnt;
+                    cnt = 1;
+                }
+                answer += arr[i];
+                tmp = arr[i];
             }
         }
-        return result;
+        return answer;
     }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println(solution(sc.next()));
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine() + " "; //공백 스트링 하나 붙이기,,
+        System.out.println(solution(str.toCharArray()));
     }
 }

@@ -1,29 +1,24 @@
 package lecture.inflearn_basic.array;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class BiggerNumber {
-    public static void solution(int[] array){
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        for (int i = 0; i < array.length; i++) {
-            if(i==0) arrayList.add(array[i]);
-            else{
-                if(array[i-1]<array[i]) arrayList.add(array[i]);
-            }
-        }
-        for (Integer i : arrayList) {
-            System.out.print(i+" ");
+    public static void solution(int[] arr){
+        int prev = 0;
+        for (int i : arr) {
+            if(i>prev) System.out.print(i+" ");
+            prev = i;
         }
     }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int size = sc.nextInt();
-        int[] arr = new int[size];
-        for (int i = 0; i < size; i++) {
-            arr[i] = sc.nextInt();
-        }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int num = Integer.parseInt(br.readLine());
+        int[] arr = new int[num];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < num; i++) arr[i] = Integer.parseInt(st.nextToken());
         solution(arr);
     }
 }

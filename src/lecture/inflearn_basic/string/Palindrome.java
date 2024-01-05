@@ -1,5 +1,8 @@
 package lecture.inflearn_basic.string;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 // 1. 내 풀이
@@ -30,17 +33,36 @@ import java.util.Scanner;
 //}
 
 // 2. 강의 풀이
-public class Palindrome {
-    public static String solution(String str){
-        String answer = "NO";
-        String tmp = new StringBuilder(str).reverse().toString();
-        if(str.equalsIgnoreCase(tmp)) answer = "YES";
-        //equalsIgnoreCase -> 대소문자 무시하고 같은지 비교
-        return answer;
-    }
+//public class Palindrome {
+//    public static String solution(String str){
+//        String answer = "NO";
+//        String tmp = new StringBuilder(str).reverse().toString();
+//        if(str.equalsIgnoreCase(tmp)) answer = "YES";
+//        //equalsIgnoreCase -> 대소문자 무시하고 같은지 비교
+//        return answer;
+//    }
+//
+//    public static void main(String[] args) {
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println(solution(sc.next()));;
+//    }
+//}
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println(solution(sc.next()));;
+public class Palindrome {
+    public static boolean solution(String str){
+        String newStr = str.toLowerCase();
+        int lt = 0, rt = str.length()-1;
+        while (lt<rt){
+            if(newStr.charAt(lt) != newStr.charAt(rt)) return false;
+            lt++;
+            rt--;
+        }
+        return true;
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine();
+        if(solution(str)) System.out.println("YES");
+        else System.out.println("NO");
     }
 }

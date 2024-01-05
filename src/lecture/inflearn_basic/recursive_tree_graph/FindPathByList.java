@@ -1,7 +1,11 @@
 package lecture.inflearn_basic.recursive_tree_graph;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 //인접 리스트 사용 (정점의 개수가 많아지면 인접 행렬X, 인접 리스트 사용해야 함!)
 public class FindPathByList {
@@ -22,21 +26,23 @@ public class FindPathByList {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt(); //총 노드의 개수
-        m = sc.nextInt(); //간선의 개수
-        graph = new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken()); //총 노드의 개수
+        m = Integer.parseInt(st.nextToken()); //간선의 개수
+        graph = new ArrayList<>(); //노드들의 연결정보를 기록
+        ch = new int[n+1]; //방문했는지 여부 체크!
         for (int i = 0; i <= n; i++) { //정점 노드의 번호를 그대로 쓰기 위해 0~n까지
             graph.add(new ArrayList<>());
         }
-        ch = new int[n+1];
         for (int i = 0; i < m; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            graph.get(a).add(b); //인덱스 a의 arrayList에 b를 추가
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            graph.get(a).add(b);
         }
-        ch[1] = 1;
+        ch[1] = 1; //1번 노드가 출발점이므로 체크!
         DFS(1);
         System.out.println(answer);
     }

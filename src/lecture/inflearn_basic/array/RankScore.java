@@ -1,11 +1,11 @@
 package lecture.inflearn_basic.array;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
-// 1. 내 풀이 -> HashMap 사용
+// HashMap 사용
 //public class RankScore {
 //    public static void solution(int[] array){
 //        HashMap<Integer, Integer> map = new HashMap<>();
@@ -37,28 +37,28 @@ import java.util.Scanner;
 //    }
 //}
 
-// 2. 강의 풀이 -> 이중 for문 사용
-public class RankScore{
-    public static void solution(int[] array){
-        int[] new_array = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
+public class RankScore {
+    public static void solution(int[] arr){
+        int[] newArr = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
             int cnt = 1;
-            for (int j = 0; j < array.length; j++) {
-                if(array[i]<array[j]) cnt++;
+            for (int j = 0; j < arr.length; j++) {
+                if(arr[i] < arr[j]) cnt++;
             }
-            new_array[i] = cnt;
+            newArr[i] = cnt;
         }
-        for (int i : new_array) {
+
+        for (int i : newArr) {
             System.out.print(i+" ");
         }
     }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = sc.nextInt();
-        }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        int num = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] arr = new int[num];
+        for (int i = 0; i < num; i++) arr[i] = Integer.parseInt(st.nextToken());
         solution(arr);
     }
 }

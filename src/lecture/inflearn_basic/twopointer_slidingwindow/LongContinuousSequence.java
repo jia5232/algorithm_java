@@ -1,16 +1,16 @@
 package lecture.inflearn_basic.twopointer_slidingwindow;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-// 꼭 다시 풀기!
 public class LongContinuousSequence {
-    public static int solution(int n, int k, int[] arr){
-        int answer = 0;
-        int cnt = 0; //0을 1로 바꾼 횟수
-        int lt = 0;
+    public static int solution(int n, int chance, int[] arr){
+        int answer = 0, lt = 0, cnt = 0;
         for (int rt = 0; rt < n; rt++) {
             if(arr[rt]==0) cnt++;
-            while (cnt>k){
+            while (cnt>chance){
                 if(arr[lt]==0) cnt--;
                 lt++;
             }
@@ -19,14 +19,14 @@ public class LongContinuousSequence {
         return answer;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int num = sc.nextInt();
-        int chance = sc.nextInt();
-        int[] arr = new int[num];
-        for (int i = 0; i < num; i++) {
-            arr[i] = sc.nextInt();
-        }
-        System.out.println(solution(num, chance, arr));
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int[] arr = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(st.nextToken());
+        System.out.println(solution(n, m, arr));
     }
 }

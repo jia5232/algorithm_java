@@ -1,57 +1,32 @@
 package lecture.inflearn_basic.twopointer_slidingwindow;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-// 1. 내 답안 -> 시간초과
-// 주어진 N의 범위가 1<=N<=100,000 이므로 O(n^2)으로는 어렵다! -> 이중 for문 불가
-// two pointer, sliding window를 통해 O(n^2) -> O(n)으로 풀어야 한다.
-//public class ContinuousSequence {
-//    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        int n = sc.nextInt();
-//        int m = sc.nextInt();
-//        int[] arr = new int[n];
-//        for (int i = 0; i < n; i++) {
-//            arr[i] = sc.nextInt();
-//        }
-//        int result = 0;
-//        for (int i = 0; i < n; i++) {
-//            int tmp = arr[i];
-//            for (int j = 1+i; j < n; j++) {
-//                tmp += arr[j];
-//                if(tmp==m){
-//                    result += 1;
-//                    break;
-//                }
-//            }
-//        }
-//        System.out.println(result);
-//    }
-//}
-
-// 2. 강의 답안
-public class ContinuousSequence{
+public class ContinuousSequence {
     public static int solution(int n, int m, int[] arr){
         int answer = 0, sum = 0, lt = 0;
-        for (int rt = 0; rt < n; rt++) { //rt를 증가하고,
-            sum+=arr[rt]; //arr[rt]를 더하고,
-            if(sum==m) answer++; //확인
+        for (int rt = 0; rt < n; rt++) {
+            sum += arr[rt];
+            if(sum==m) answer++;
             while (sum>=m){
-                sum-=arr[lt++]; //arr[lt]를 빼주고 lt 증가
+                sum -= arr[lt++];
                 if(sum==m) answer++;
             }
         }
         return answer;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
         int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
-        }
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(st.nextToken());
         System.out.println(solution(n, m, arr));
     }
 }

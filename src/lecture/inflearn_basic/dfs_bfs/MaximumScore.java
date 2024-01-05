@@ -1,34 +1,37 @@
 package lecture.inflearn_basic.dfs_bfs;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class MaximumScore {
-    static int num;
-    static int maxTime;
-    static int result = Integer.MIN_VALUE;
-    public static void DFS(int L, int sumOfTime, int sumOfScore, int[][] arr){
-        if(sumOfTime>maxTime) return;
+    static int n, limit;
+    static int answer = Integer.MIN_VALUE;
+    public static void DFS(int sum, int time, int L, int[][] arr){
+        if(time>limit) return;
 
-        if(L==num){
-            if(sumOfScore>result) result = sumOfScore;
+        if(L==n){
+            if(sum>answer) answer = sum;
         }
         else{
-            //i) L번째의 원소를 부분집합에 사용
-            DFS(L+1, sumOfTime+arr[L][1], sumOfScore+arr[L][0], arr);
-            //ii) L번째의 원소를 부분집합에 사용하지 않음
-            DFS(L+1, sumOfTime, sumOfScore, arr);
+            DFS(sum+arr[L][0], time+arr[L][1], L+1, arr);
+            DFS(sum, time, L+1, arr);
         }
     }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        num = sc.nextInt();
-        maxTime = sc.nextInt();
-        int[][] arr = new int[num][2];
-        for (int i = 0; i < num; i++) {
-            arr[i][0] = sc.nextInt(); //점수
-            arr[i][1] = sc.nextInt(); //소요시간
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        limit = Integer.parseInt(st.nextToken());
+        int[][] arr = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            arr[i][0] = Integer.parseInt(st.nextToken()); //점수
+            arr[i][1] = Integer.parseInt(st.nextToken()); //걸리는 시간
         }
         DFS(0, 0, 0, arr);
-        System.out.println(result);
+        System.out.println(answer);
     }
 }

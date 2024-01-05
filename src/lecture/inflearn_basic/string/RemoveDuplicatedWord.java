@@ -1,19 +1,22 @@
 package lecture.inflearn_basic.string;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class RemoveDuplicatedWord {
-    public static void solution(String str){
+    public static String solution(String str){
         String answer = "";
-        for (int i=0; i<str.length(); i++){
-            if(i==str.indexOf(str.charAt(i))) answer+=str.charAt(i);
-            // indexOf()는 해당 문자가 존재하는 제일 앞 인덱스를 반환해준다.
+        String[] arr = str.split("");
+        for (int i = 0; i < arr.length; i++) {
+            if(i == str.indexOf(str.charAt(i))) answer += str.charAt(i);
         }
-        System.out.println(answer);
+        return answer;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        solution(sc.next());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine();
+        System.out.println(solution(str));
     }
 }

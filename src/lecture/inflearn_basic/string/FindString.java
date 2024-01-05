@@ -1,21 +1,21 @@
 package lecture.inflearn_basic.string;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-public class FindString { //1.문자 찾기
-    public static int solution(String str, char t){
+public class FindString {
+    public static int solution(char[] arr, char c){
         int answer = 0;
-        String[] arr = str.toUpperCase().split("");
-        String t_string = Character.toString(t).toUpperCase();
-        for(String a : arr){
-            if(a.equals(t_string)) answer++;
+        for (char c1 : arr) {
+            if(c1==c) answer++;
         }
         return answer;
     }
 
-    public static void main(String[] args){
-        Scanner kb = new Scanner(System.in);
-        String str = kb.next();
-        char t = kb.next().charAt(0);
-        System.out.println(solution(str, t));
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine().toLowerCase();
+        Character c = br.readLine().toLowerCase().charAt(0);
+        System.out.println(solution(str.toCharArray(), c));
     }
 }

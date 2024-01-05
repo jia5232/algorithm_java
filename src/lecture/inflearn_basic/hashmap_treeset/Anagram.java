@@ -1,28 +1,30 @@
 package lecture.inflearn_basic.hashmap_treeset;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Anagram {
-    public static String solution(String s1, String s2){
-        String answer = "YES";
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(char x : s1.toCharArray()) {
-            map.put(x, map.getOrDefault(x, 0) + 1);
+    public static boolean solution(String s1, String s2){
+        HashMap<String, Integer> map = new HashMap<>();
+        for (String s : s1.split("")) {
+            if(map.containsKey(s)) map.put(s, map.get(s)+1);
+            else map.put(s, 1);
         }
-        for(char x : s2.toCharArray()){
-            if(!map.containsKey(x) || map.get(x)==0) return "NO";
-            //x키의 값이 존재하지 않거나, 값을 가져왔는데 0이면 아나그램이 아니다!
-            map.put(x, map.get(x)-1);
+        for (String s : s2.split("")) {
+            if(!map.containsKey(s)) return false;
+            if(map.get(s)>0) map.put(s, map.get(s)-1);
+            else return false;
         }
-
-        return answer;
+        return true;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String a = sc.next();
-        String b = sc.next();
-        System.out.println(solution(a, b));
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str1 = br.readLine();
+        String str2 = br.readLine();
+        if(solution(str1, str2)) System.out.println("YES");
+        else System.out.println("NO");
     }
 }

@@ -1,40 +1,45 @@
 package lecture.inflearn_basic.string;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class ShortestCharDistance {
-    public static int[] solution(String s, char t){
-        int[] answer = new int[s.length()];
+    public static void solution(String s, String t){
+        char target = t.charAt(0);
+        Integer[] answer = new Integer[s.length()];
+
         int p = 1000;
-        //오른쪽으로 돈다!
         for (int i = 0; i < s.length(); i++) {
-            if(s.charAt(i)==t){
-                p=0;
-                answer[i] = p;
-            } else{
+            if(s.charAt(i) != target){
                 p++;
                 answer[i] = p;
             }
-        }
-        p = 1000; //다시 초기화!
-        //왼쪽으로 돈다!
-        for (int i = s.length()-1; i >= 0 ; i--) {
-            if(s.charAt(i)==t) p=0; //다시 배열에 넣어줄 필요는 없다.
             else{
-                p++;
-                answer[i] = Math.min(answer[i], p); //기존의 값과 p중에 작은 값을 넣는다.
+                p = 0;
+                answer[i] = p;
             }
         }
 
-        return answer;
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String str = sc.next();
-        char c = sc.next().charAt(0);
-        for(int x : solution(str, c)){
-            System.out.print(x+" ");
+        p = 1000;
+        for (int i = s.length()-1; i >= 0; i--) {
+            if(s.charAt(i) != target){
+                p++;
+                answer[i] = Math.min(answer[i], p);
+            }
+            else p = 0;
         }
+
+        for (Integer i : answer) {
+            System.out.print(i+" ");
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        String s = st.nextToken();
+        String t = st.nextToken();
+        solution(s, t);
     }
 }

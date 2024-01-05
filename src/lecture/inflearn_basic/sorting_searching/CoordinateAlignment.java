@@ -1,25 +1,40 @@
 package lecture.inflearn_basic.sorting_searching;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class CoordinateAlignment {
-    //Point.java 참조!!
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        ArrayList<Point> arr = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            arr.add(new Point(x, y));
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int num = Integer.parseInt(br.readLine());
+        Point[] arr = new Point[num];
+        StringTokenizer st;
+        for (int i = 0; i < num; i++) {
+            st = new StringTokenizer(br.readLine());
+            arr[i] = new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
         }
-        Collections.sort(arr);
-        //sort할때 Comparable 인터페이스를 통해서 정렬한다.
-        //이때 우리가 오버라이딩한 compareTo 메소드를 사용하여 정렬을 한다.
-        for (Point o : arr) {
-            System.out.println(o.x+" "+o.y);
+        Arrays.sort(arr);
+        for (Point p : arr) {
+            System.out.println(p.x+" "+p.y);
+        }
+    }
+
+    static class Point implements Comparable<Point>{
+        int x;
+        int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public int compareTo(Point o) {
+            if(this.x==o.x) return this.y-o.y;
+            return this.x-o.x;
         }
     }
 }

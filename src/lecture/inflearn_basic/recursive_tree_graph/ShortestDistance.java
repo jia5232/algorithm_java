@@ -1,10 +1,9 @@
 package lecture.inflearn_basic.recursive_tree_graph;
 
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class ShortestDistance { //최단거리 -> BFS
     static int n, m;
@@ -14,8 +13,6 @@ public class ShortestDistance { //최단거리 -> BFS
 
     public static void BFS(int v){
         Queue<Integer> queue = new LinkedList<>();
-        ch[v] = 1;
-        dis[v] = 0; //왜??
         queue.add(v);
         while (!queue.isEmpty()){
             int currV = queue.poll();
@@ -29,24 +26,29 @@ public class ShortestDistance { //최단거리 -> BFS
         }
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt(); //총 노드의 개수
-        m = sc.nextInt(); //간선의 개수
-        graph = new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken()); //총 노드의 개수
+        m = Integer.parseInt(st.nextToken()); //간선의 개수
+        graph = new ArrayList<>(); //노드들의 연결정보를 기록
+        ch = new int[n+1]; //방문했는지 여부 체크!
+        dis = new int[n+1]; //해당 노드까지 최소 이동 간선수
         for (int i = 0; i <= n; i++) { //정점 노드의 번호를 그대로 쓰기 위해 0~n까지
             graph.add(new ArrayList<>());
         }
-        ch = new int[n+1];
-        dis = new int[n+1];
         for (int i = 0; i < m; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            graph.get(a).add(b); //인덱스 a의 arrayList에 b를 추가
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            graph.get(a).add(b);
         }
+
+        ch[1] = 1; //1번 노드가 출발점이므로 체크!
+        dis[1] = 0; //왜?? -> 1이 출발이니까 1까지 최소 이동 간선수는 0이지!
         BFS(1);
         for (int i = 2; i <= n; i++) {
-            System.out.println(i+": "+dis[i]);
+            System.out.println(i+" : "+dis[i]);
         }
     }
 }

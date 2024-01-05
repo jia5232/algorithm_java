@@ -8,6 +8,22 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class TallestTower {
+
+    static class Brick implements Comparable<Brick> {
+        public int s, h, w;
+
+        public Brick(int s, int h, int w) {
+            this.s = s; //넓이
+            this.h = h; //높이
+            this.w = w; //무게
+        }
+
+        @Override
+        public int compareTo(Brick o) {
+            return o.s - this.s; //넓이 기준 내림차순 정렬!
+        }
+    }
+
     public static int[] dy; //현재 벽돌 기준 최대 높이를 저장
 
     public static int solution(ArrayList<Brick> arr){

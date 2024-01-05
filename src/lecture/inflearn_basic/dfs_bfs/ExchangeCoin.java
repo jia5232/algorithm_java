@@ -1,38 +1,42 @@
 package lecture.inflearn_basic.dfs_bfs;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class ExchangeCoin {
-    static int n, m;
+    static int n, price;
     static int answer = Integer.MAX_VALUE;
 
-    public static void DFS(int L, int sum, Integer[] arr){
-        if(L>=answer) return; //최소값을 구하는 것이므로 이미 구한 answer보다 더 큰값은 계산하지 않는다.
+    public static void DFS(int sum, int L, Integer[] coins){
+        if(L>=answer) return;
 
-        if(sum>m) return;
+        if(sum>price) return;
 
-        if(sum==m){
+        if(sum==price){
             if(answer>L) answer = L;
         }
         else{
-            for (int i = 0; i < n; i++) {
-                DFS(L+1, sum+arr[i], arr);
+            for (int i = 0; i < coins.length; i++) {
+                DFS(sum+coins[i], L+1, coins);
             }
         }
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt(); //동전의 종류 개수
-        Integer[] arr = new Integer[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        Arrays.sort(arr, Collections.reverseOrder());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        Integer[] coins = new Integer[n];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) coins[i] = Integer.parseInt(st.nextToken());
+        Arrays.sort(coins, Collections.reverseOrder());
         //시간복잡도를 위해 arr를 내림차순 정렬!
         //Collections를 사용하려면 기본형 배열이면 안되고 객체형의 배열이어야 한다.
-        m = sc.nextInt(); //금액
-        DFS(0, 0, arr);
+        price = Integer.parseInt(br.readLine());
+        DFS(0, 0, coins);
         System.out.println(answer);
     }
 }

@@ -1,40 +1,44 @@
 package lecture.inflearn_basic.dfs_bfs;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Permutation {
     static int n, m;
-    static int[] pm; //순열의 결과
-    static int[] ch; //사용여부 체크
-    static int[] arr; //입력된 N개의 자연수 배열
+    static int[] arr, pm, ch;
 
     public static void DFS(int L){
         if(L==m){
+            StringBuilder sb = new StringBuilder();
             for (int i : pm) {
-                System.out.print(i+" ");
+                sb.append(i+" ");
             }
-            System.out.println();
+            System.out.println(sb);
         }
         else{
             for (int i = 0; i < n; i++) {
                 if(ch[i]==0){
-                    ch[i] = 1; //체크 걸고
+                    ch[i] = 1;
                     pm[L] = arr[i];
-                    DFS(L+1); //돌리고
-                    ch[i] = 0; //체크 풀고
+                    DFS(L+1);
+                    ch[i] = 0;
                 }
             }
         }
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n= sc.nextInt();
-        m = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
         arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        ch = new int[n];
         pm = new int[m];
+        ch = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(st.nextToken());
         DFS(0);
     }
 }

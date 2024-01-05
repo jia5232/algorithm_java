@@ -1,7 +1,17 @@
 package lecture.inflearn_basic.recursive_tree_graph;
 
 public class BinaryTreeDFS { //깊이 우선 탐색
-    Node root;
+    static class Node{
+        int data;
+        Node lt;
+        Node rt;
+        public Node(int data) {
+            this.data = data;
+            lt = rt = null;
+        }
+    }
+
+    static Node root;
 
     public static void DFS(Node root){
         if(root==null) return; //말단 노드면 종료시킴.

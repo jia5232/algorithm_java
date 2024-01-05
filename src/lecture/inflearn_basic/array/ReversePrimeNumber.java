@@ -1,72 +1,42 @@
 package lecture.inflearn_basic.array;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
-// 1. 내 풀이
-//public class ReversePrimeNumber {
-//    public static boolean isPrime(int n){
-//        if(n==1) return false;
-//        for (int i = 2; i < (int)Math.sqrt(n); i++) {
-//            if(n%i==0) return false;
-//        }
-//        return true;
-//    }
-//    public static void solution(int[] arr){
-//        ArrayList<Integer> array = new ArrayList<>();
-//        for (int n : arr) {
-//            String tmpStr = String.valueOf(n);
-//            String reverseStr = new StringBuilder(tmpStr).reverse().toString();
-//            int reverseInt = Integer.parseInt(reverseStr);
-//            if(isPrime(reverseInt)) array.add(reverseInt);
-//        }
-//        for (Integer integer : array) {
-//            System.out.print(integer+" ");
-//        }
-//    }
-//    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        int num = sc.nextInt();
-//        int[] arr = new int[num];
-//        for (int i = 0; i < num; i++) {
-//            arr[i] = sc.nextInt();
-//        }
-//        solution(arr);
-//    }
-//}
-
-// 2. 강의 풀이
-public class ReversePrimeNumber{
+public class ReversePrimeNumber {
     public static boolean isPrime(int n){
         if(n==1) return false;
-        for (int i = 2; i < n; i++) {
-            if(n%i==0) return false;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if(n % i == 0) return false;
         }
         return true;
     }
-    public static ArrayList<Integer> solution(int n, int[] arr){
+
+    public static void solution(int[] arr){
         ArrayList<Integer> result = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < arr.length; i++) {
             int tmp = arr[i];
-            int res = 0;
+            int reverseNum = 0;
             while (tmp>0){
-                int t = tmp%10;
-                res = res*10 + t;
-                tmp = tmp/10;
+                reverseNum = reverseNum*10 + tmp%10;
+                tmp /= 10;
             }
-            if(isPrime(res)) result.add(res);
+            if(isPrime(reverseNum)) result.add(reverseNum);
         }
-        return result;
+        for (Integer i : result) {
+            System.out.print(i+" ");
+        }
     }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
-        }
-        for (Integer integer : solution(n, arr)) {
-            System.out.print(integer + " ");
-        }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int num = Integer.parseInt(br.readLine());
+        int[] arr = new int[num];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < num; i++) arr[i] = Integer.parseInt(st.nextToken());
+        solution(arr);
     }
 }

@@ -1,11 +1,13 @@
 package lecture.inflearn_basic.recursive_tree_graph;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class FindingCalf {
-    static int answer = 0;
     static int[] dis = {1, -1, 5};
     static int[] ch;
     static Queue<Integer> Q = new LinkedList<>();
@@ -34,10 +36,11 @@ public class FindingCalf {
         return 0;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int s = sc.nextInt();
-        int e = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int s = Integer.parseInt(st.nextToken());
+        int e = Integer.parseInt(st.nextToken());
         System.out.println(BFS(s, e));
     }
 }

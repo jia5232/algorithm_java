@@ -14,7 +14,7 @@ public class ExchangeCoin {
     public static int solution(int[] coin){
         Arrays.fill(dy, Integer.MAX_VALUE);
         dy[0] = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < coin.length; i++) {
             for (int j = coin[i]; j <= m; j++) {
                 dy[j] = Math.min(dy[j], dy[j-coin[i]]+1);
             }
