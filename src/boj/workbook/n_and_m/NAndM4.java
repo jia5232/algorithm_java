@@ -1,4 +1,4 @@
-package boj.n_and_m;
+package boj.workbook.n_and_m;
 
 import java.util.Scanner;
 
