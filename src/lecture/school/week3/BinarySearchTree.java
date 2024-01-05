@@ -1,27 +1,60 @@
 package lecture.school.week3;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class BinarySearchTree {
-    static class Node{
-        int data;
-        Node left;
-        Node right;
+class Node{
+    int data;
+    Node left;
+    Node right;
 
-        public Node(int data) {
-            this.data = data;
+    public Node(int data) {
+        this.data = data;
+    }
+
+    public void insert(int data){
+        if(this.data < data){
+            if(this.right == null) this.right = new Node(data);
+            else this.right.insert(data);
         }
-
-        public void insert(int data) {
-            if(this.data < data){
-                if(this.right == null) this.right = new Node(data);
-                else this.right.insert(data);
-            }else{
-                if(this.left == null) this.left = new Node(data);
-                else this.left.insert(data);
-            }
+        else{
+            if(this.left == null) this.left = new Node(data);
+            else this.left.insert(data);
         }
     }
+}
+
+public class BinarySearchTree {
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int num = Integer.parseInt(br.readLine());
+        for (int i = 0; i < num; i++) {
+            st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            Node root = new Node(Integer.parseInt(st.nextToken()));
+            for (int j = 0; j < n - 1; j++) {
+                root.insert(Integer.parseInt(st.nextToken()));
+            }
+            System.out.println(size(root));
+            System.out.println(height(root));
+            System.out.println(sumOfWeight(root));
+            System.out.println(maxPathWeight(root));
+            mirror(root);
+            preOrder(root);
+            System.out.println();
+            inOrder(root);
+            System.out.println();
+            postOrder(root);
+            System.out.println();
+            root = destruct(root);
+            if(root==null) System.out.println(0);
+            else System.out.println(1);
+        }
+    }
+
     public static void preOrder(Node root){
         if(root==null) return;
         System.out.print(root.data+" ");
@@ -43,6 +76,36 @@ public class BinarySearchTree {
         System.out.print(root.data+" ");
     }
 
+    public static int size(Node root){
+        if(root==null) return 0;
+        if(root.left==null && root.right==null) return 1;
+        else return size(root.left)+size(root.right)+1;
+    }
+
+    public static int height(Node root){
+        if(root==null) return 0;
+        if(root.left==null && root.right==null) return 0;
+        int left = height(root.left);
+        int right = height(root.right);
+        return Math.max(left, right)+1;
+    }
+
+    public static int sumOfWeight(Node root){
+        if(root==null) return 0;
+        if(root.left==null && root.right==null) return root.data;
+        int left = sumOfWeight(root.left);
+        int right = sumOfWeight(root.right);
+        return left+right+root.data;
+    }
+
+    public static int maxPathWeight(Node root){
+        if(root==null) return 0;
+        if(root.left==null && root.right==null) return root.data;
+        int left = maxPathWeight(root.left);
+        int right = maxPathWeight(root.right);
+        return Math.max(left, right) + root.data;
+    }
+
     public static void mirror(Node root){
         if(root==null) return;
         Node tmp = root.left;
@@ -52,62 +115,11 @@ public class BinarySearchTree {
         mirror(root.right);
     }
 
-    private static Node destruct(Node root) {
-        //자바는 부모 객체가 Null이 되면 그 객체를 참조하는 자식 객체들도 가비지 컬렉터의 처리 대상이 된다.
-        return null;
-    }
-
-    private static int maxPathWeight(Node root) {
-        if(root==null) return 0;
-        int left = maxPathWeight(root.left);
-        int right = maxPathWeight(root.right);
-        return root.data + Math.max(left, right);
-    }
-
-    private static int sumOfWeight(Node root) {
-        int result = 0;
-        if(root==null) return 0;
-        result += (root.data + sumOfWeight(root.left) + sumOfWeight(root.right));
-        return result;
-    }
-
-    private static int height(Node root) {
-        if(root==null) return 0;
-        if(root.left==null && root.right==null) return 0;
-        int left = height(root.left);
-        int right = height(root.right);
-        return Math.max(left, right)+1;
-    }
-
-    private static int size(Node root) {
-        if(root==null) return 0;
-        if(root.left==null && root.right==null) return 1;
-        return size(root.left)+size(root.right)+1;
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int num = sc.nextInt();
-        for (int i = 0; i < num; i++) {
-            int n = sc.nextInt();
-            Node root = new Node(sc.nextInt());
-            for (int j = 0; j < n-1; j++) {
-                root.insert(sc.nextInt());
-            }
-            System.out.println(size(root));
-            System.out.println(height(root));
-            System.out.println(sumOfWeight(root));
-            System.out.println(maxPathWeight(root));
-            mirror(root);
-            preOrder(root);
-            System.out.println();
-            inOrder(root);
-            System.out.println();
-            postOrder(root);
-            System.out.println();
-            root = destruct(root);
-            if(root==null) System.out.println(0);
-            else System.out.println(1);
-        }
+    public static Node destruct(Node root){
+        if(root==null) return null;
+        if(root.left!=null) destruct(root.left);
+        if(root.right!=null) destruct(root.right);
+        root = null;
+        return root;
     }
 }

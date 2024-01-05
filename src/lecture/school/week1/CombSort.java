@@ -1,33 +1,17 @@
 package lecture.school.week1;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class CombSort {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        for (int i = 0; i < n; i++) {
-            int iter =  scanner.nextInt();
-            ArrayList<Integer> arr = new ArrayList<>();
-            for (int j = 0; j < iter; j++) {
-                arr.add(scanner.nextInt());
-            }
-            combSort((ArrayList<Integer>) arr.clone());
-        }
-    }
-
-    public static void swap(List<Integer> arrayList, int index1, int index2){
-        int tmp = arrayList.get(index1);
-        arrayList.set(index1, arrayList.get(index2));
-        arrayList.set(index2, tmp);
-    }
-
-    public static void combSort(List<Integer> arrayList){
+    static StringTokenizer st;
+    public static void combSort(int[] arr){
         int comparison = 0;
         int swapNum = 0;
-        double gap = arrayList.size();
+
+        double gap = arr.length;
         double shrink = 1.3;
         boolean sorted = false;
 
@@ -38,16 +22,35 @@ public class CombSort {
                 sorted = true;
             }
             int i = 0;
-            while (i+gap < arrayList.size()){
+            while (i+gap < arr.length){
                 comparison++;
-                if(arrayList.get(i) > arrayList.get(i+(int)gap)){
-                    swap(arrayList, i, i+(int)gap);
-                    swapNum++;
+                if(arr[i] > arr[i+(int)gap]){
+                    swap(arr, i, i+(int)gap);
                     sorted = false;
+                    swapNum++;
                 }
-                i+=1;
+                i++;
             }
         }
-        System.out.println(comparison+ " " +swapNum);
+
+        System.out.print(comparison+" "+swapNum+" ");
+    }
+    public static void swap(int[] arr, int index1, int index2){
+        int tmp = arr[index1];
+        arr[index1] = arr[index2];
+        arr[index2] = tmp;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            int num = Integer.parseInt(st.nextToken());
+            int[] arr = new int[num];
+            for (int j = 0; j < num; j++) arr[j] = Integer.parseInt(st.nextToken());
+            combSort(arr.clone());
+            System.out.println();
+        }
     }
 }

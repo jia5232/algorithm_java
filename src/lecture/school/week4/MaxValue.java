@@ -6,26 +6,34 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class MaxValue {
-    public static void recursive(int max, int[] arr, int index){
-        if(index==arr.length){
-            System.out.println(max);
-            return;
+    public static int maxValueIndex(int[] arr, int lt, int rt){
+        if(lt>=rt){
+            return lt;
         }
-        if(max<arr[index]) max = arr[index];
-        recursive(max, arr, ++index);
+        int mid = (lt+rt) / 2;
+        int leftMaxIndex = maxValueIndex(arr, lt, mid);
+        int rightMaxIndex = maxValueIndex(arr, mid+1, rt);
+        return arr[leftMaxIndex]>arr[rightMaxIndex] ? leftMaxIndex : rightMaxIndex;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static int maxValue(int[] arr, int max, int index){
+        if(index==arr.length) return max;
+        max = Math.max(max, arr[index]);
+        return maxValue(arr, max, index+1);
+    }
+
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int iter = Integer.parseInt(br.readLine());
-        for (int i = 0; i < iter; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int num = Integer.parseInt(st.nextToken());
-            int[] arr = new int[num];
-            for (int j = 0; j < num; j++) {
-                arr[j] = Integer.parseInt(st.nextToken());
-            }
-            recursive(0, arr, 0);
+        StringTokenizer st;
+        int num = Integer.parseInt(br.readLine());
+        for (int i = 0; i < num; i++) {
+            st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) arr[j] = Integer.parseInt(st.nextToken());
+//            int index = maxValueIndex(arr, 0, n - 1);
+//            System.out.println(arr[index]);
+            System.out.println(maxValue(arr, 0, 0));
         }
     }
 }

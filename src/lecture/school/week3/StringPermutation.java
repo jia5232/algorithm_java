@@ -1,41 +1,39 @@
 package lecture.school.week3;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class StringPermutation {
-    private static int count;
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num = scanner.nextInt();
-        for (int i = 0; i < num; i++) {
-            count = 0;
-            String str = scanner.next();
-            boolean[] visited = new boolean[str.length()];
-            perm(0, visited, str,0);
-            System.out.println(count);
-        }
-    }
-
-    private static void perm(int w, boolean[] visited, String str, int depth){
-        if(str.length() == depth){
-            if(w > 0){
-                count++;
-            }
+    static int[] ch;
+    static int answer;
+    public static void permutation(String s, int sum, int L){
+        if(L==s.length()){
+            if(sum>0) answer++;
             return;
         }
-
-        for(int i = 0; i < str.length(); i++){
-            if(!visited[i]){
-                visited[i] = true;
-                int sign = 1;
-                if(depth % 2 == 1) sign = -1;
-
-                int tmp = sign * (str.charAt(i) - 'a');
-
-                perm(w + tmp, visited, str, depth + 1);
-                visited[i] = false;
+        else{
+            for (int i = 0; i < s.length(); i++) {
+                if(ch[i]==0){
+                    ch[i] = 1;
+                    int sign = 1;
+                    if(L%2==1) sign = -1;
+                    int tmp = (s.charAt(i) - 'a')*sign;
+                    permutation(s, sum+tmp, L+1);
+                    ch[i] = 0;
+                }
             }
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int num = Integer.parseInt(br.readLine());
+        for (int i = 0; i < num; i++) {
+            String str = br.readLine();
+            answer = 0;
+            ch = new int[str.length()];
+            permutation(str, 0, 0);
+            System.out.println(answer);
         }
     }
 }

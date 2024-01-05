@@ -1,20 +1,26 @@
 package lecture.school.week2;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Euclid {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num = scanner.nextInt();
-        for (int i = 0; i < num; i++) {
-            int a = scanner.nextInt();
-            int b = scanner.nextInt();
-            System.out.println(euclid(a, b));
-        }
-    }
+    static StringTokenizer st;
 
     public static int euclid(int a, int b){
         if(b==0) return a;
-        return euclid(b, a%b);
+        else return euclid(b, a%b);
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int num = Integer.parseInt(br.readLine());
+        for (int i = 0; i < num; i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            System.out.println(euclid(a, b));
+        }
     }
 }

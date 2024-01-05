@@ -7,20 +7,20 @@ import java.util.StringTokenizer;
 
 public class Kadane {
     public static void solution(int[] arr){
-        int start = -1, end = -1, maxSum = 0, thisSum = 0;
+        int start = -1, end = -1, thisSum = 0, maxSum = 0;
         int i = 0;
         for (int j = 0; j < arr.length; j++) {
-            if(arr[i]==0) {
+            if(arr[i]==0){
                 i++;
                 continue;
             }
-            thisSum+=arr[j];
-            if(thisSum > maxSum){
+            thisSum += arr[j];
+            if(thisSum>maxSum){
                 maxSum = thisSum;
                 start = i;
                 end = j;
             }
-            else if(thisSum < 0){
+            if(thisSum<0){
                 i = j+1;
                 thisSum = 0;
             }

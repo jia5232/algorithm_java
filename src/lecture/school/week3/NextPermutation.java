@@ -1,19 +1,12 @@
 package lecture.school.week3;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class NextPermutation {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num = scanner.nextInt();
-        for(int testCase = 0; testCase < num; testCase++){
-            int n = scanner.nextInt();
-            String str = scanner.next();
-            findNextPermutation(str.toCharArray(), n);
-        }
-    }
-
-    public static void findNextPermutation(char[] strArray, int n) {
+    public static void nextPermutation(char[] strArray, int n) {
         if(n <= 1) {
             System.out.println(strArray[0]);
             return;
@@ -65,5 +58,17 @@ public class NextPermutation {
             System.out.print((char)value);
         }
         System.out.println();
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int num = Integer.parseInt(br.readLine());
+        for (int i = 0; i < num; i++) {
+            st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            String s = st.nextToken();
+            nextPermutation(s.toCharArray(), n);
+        }
     }
 }

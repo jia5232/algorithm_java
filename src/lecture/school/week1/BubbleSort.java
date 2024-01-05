@@ -1,56 +1,42 @@
 package lecture.school.week1;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class BubbleSort {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        for (int i = 0; i < n; i++) {
-            int iter = scanner.nextInt();
-            ArrayList<Integer> arr = new ArrayList<>();
-            for (int j = 0; j < iter; j++) {
-                arr.add(scanner.nextInt());
-            }
-
-            bubbleSort((ArrayList<Integer>) arr.clone());
-            bubbleSortImproved1((ArrayList<Integer>) arr.clone());
-            bubbleSortImproved2((ArrayList<Integer>) arr.clone());
-            System.out.println();
-        }
+    public static void swap(int[] arr, int index1, int index2){
+        int tmp = arr[index1];
+        arr[index1] = arr[index2];
+        arr[index2] = tmp;
     }
-
-    public static void swap(List<Integer> arrayList, int index1, int index2){
-        int tmp = (int) arrayList.get(index1);
-        arrayList.set(index1, arrayList.get(index2));
-        arrayList.set(index2, tmp);
-    }
-
-    public static void bubbleSort(List<Integer> arrayList){
+    public static void bubbleSort(int[] arr){
         int comparison = 0;
         int swapNum = 0;
-        for (int i = 1; i < arrayList.size(); i++) {
-            for (int j = 1; j <= arrayList.size()-i; j++) {
+
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = 1; j <= arr.length-i; j++) {
                 comparison++;
-                if((int)arrayList.get(j-1) > (int)arrayList.get(j)){
-                    swap(arrayList, j-1, j);
+                if(arr[j-1]>arr[j]){
+                    swap(arr, j-1, j);
                     swapNum++;
                 }
             }
         }
+
         System.out.print(comparison+" "+swapNum+" ");
     }
 
-    public static void bubbleSortImproved1(List<Integer> arrayList){
+    public static void bubbleSortImproved1(int[] arr){
         int comparison = 0;
         int swapNum = 0;
-        for (int i = 1; i < arrayList.size(); i++) {
+
+        for (int i = 1; i < arr.length; i++) {
             boolean swapped = false;
-            for (int j = 1; j <= arrayList.size()-i; j++) {
+            for (int j = 1; j <= arr.length-i; j++) {
                 comparison++;
-                if((int)arrayList.get(j-1) > (int)arrayList.get(j)){
-                    swap(arrayList, j-1, j);
+                if(arr[j-1]>arr[j]){
+                    swap(arr, j-1, j);
                     swapNum++;
                     swapped = true;
                 }
@@ -60,22 +46,39 @@ public class BubbleSort {
         System.out.print(comparison+" "+swapNum+" ");
     }
 
-    public static void bubbleSortImproved2(List<Integer> arrayList){
+    public static void bubbleSortImproved2(int[] arr){
         int comparison = 0;
         int swapNum = 0;
-        int lastSwappedPos = arrayList.size();
-        while (lastSwappedPos > 0){
+
+        int lastSwappedPos = arr.length;
+        while (lastSwappedPos>0){
             int swappedPos = 0;
             for (int i = 1; i < lastSwappedPos; i++) {
                 comparison++;
-                if((int)arrayList.get(i-1) > (int)arrayList.get(i)){
-                    swap(arrayList, i-1, i);
+                if(arr[i-1]>arr[i]){
+                    swap(arr, i-1, i);
                     swapNum++;
                     swappedPos = i;
                 }
             }
             lastSwappedPos = swappedPos;
         }
-        System.out.print(comparison+" "+swapNum);
+        System.out.print(comparison+" "+swapNum+" ");
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int num = Integer.parseInt(br.readLine());
+        for (int i = 0; i < num; i++) {
+            st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) arr[j] = Integer.parseInt(st.nextToken());
+            bubbleSort(arr.clone());
+            bubbleSortImproved1(arr.clone());
+            bubbleSortImproved2(arr.clone());
+            System.out.println();
+        }
     }
 }
