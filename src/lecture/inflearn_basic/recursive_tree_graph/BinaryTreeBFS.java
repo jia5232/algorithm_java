@@ -19,7 +19,7 @@ public class BinaryTreeBFS { // 넓이 우선 탐색 (레벨 탐색) -> 0레벨,
         Queue<Node> Q = new LinkedList<>();
         Q.add(root);
         int L = 0; //루트 노드의 레벨은 0
-        while (!Q.isEmpty()){ //큐가 비어있지 않을때 계속 실행
+        while (!Q.isEmpty()){ //큐가 비어 있지 않을때 계속 실행
             int len = Q.size();
             System.out.print(L+": ");
             for (int i = 0; i < len; i++) {
