@@ -5,17 +5,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class UpperLower {
-    public static String solution(char[] arr){
-        String answer = "";
-        for (char c : arr) {
-            if(Character.isLowerCase(c)) answer += String.valueOf(c).toUpperCase();
-            else answer += String.valueOf(c).toLowerCase();
-        }
-        return answer;
-    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine();
-        System.out.println(solution(str.toCharArray()));
+        String answer = "";
+        for(int i=0; i<str.length(); i++){
+            if (Character.isLowerCase(str.charAt(i))){
+                String tmp = String.valueOf(str.charAt(i)).toUpperCase();
+                answer += tmp;
+            } else {
+                String tmp = String.valueOf(str.charAt(i)).toLowerCase();
+                answer += tmp;
+            }
+        }
+        System.out.println(answer);
     }
 }

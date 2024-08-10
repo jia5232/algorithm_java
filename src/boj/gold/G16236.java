@@ -60,14 +60,14 @@ public class G16236 {
             queue.add(new Position(cur.y, cur.x, 0));
             visit[cur.y][cur.x] = true;
 
-            Position fish = null;
+            Position fish = null; //먹을 수 있는 물고기를 담는다
 
             while (!queue.isEmpty()){
                 cur = queue.poll();
 
                 if(arr[cur.y][cur.x] != 0 && arr[cur.y][cur.x] < size){
                     if(fish==null || cur.compareTo(fish)<0){
-                        fish = cur;
+                        fish = cur; //아직까지 찾은 물고기가 없거나 현재 물고기보다 가까운 물고기를 찾으면 업데이트
                     }
                 }
 
