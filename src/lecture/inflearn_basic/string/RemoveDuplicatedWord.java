@@ -3,20 +3,20 @@ package lecture.inflearn_basic.string;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RemoveDuplicatedWord {
-    public static String solution(String str){
-        String answer = "";
-        String[] arr = str.split("");
-        for (int i = 0; i < arr.length; i++) {
-            if(i == str.indexOf(str.charAt(i))) answer += str.charAt(i);
-        }
-        return answer;
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine();
-        System.out.println(solution(str));
+        List<Character> characters = new ArrayList<>();
+        for (int i = 0; i < str.length(); i++) {
+            if(characters.contains(str.charAt(i))) continue;
+            else characters.add(str.charAt(i));
+        }
+        String answer = "";
+        for(Character c : characters) answer+=c;
+        System.out.println(answer);
     }
 }
