@@ -5,27 +5,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class CompressString {
-    public static String solution(char[] arr){
-        String answer = String.valueOf(arr[0]);
-        int cnt = 1;
-        char tmp = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            if(arr[i] == tmp) cnt++;
-            else{
-                if(cnt>1){
-                    answer+=cnt;
-                    cnt = 1;
-                }
-                answer += arr[i];
-                tmp = arr[i];
-            }
-        }
-        return answer;
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = br.readLine() + " "; //공백 스트링 하나 붙이기,,
-        System.out.println(solution(str.toCharArray()));
+        String str = br.readLine()+" ";
+        char[] charArr = str.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        char before = charArr[0];
+        sb.append(before);
+        int count = 1;
+        for (int i = 1; i < charArr.length; i++) {
+            char tmp = charArr[i];
+            if(tmp==before){
+                count++;
+            }else{
+                if(count>1){
+                    sb.append(count);
+                    count = 1;
+                }
+                sb.append(tmp);
+                before = tmp;
+            }
+        }
+        System.out.println(sb);
     }
 }

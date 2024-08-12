@@ -6,40 +6,31 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class ShortestCharDistance {
-    public static void solution(String s, String t){
-        char target = t.charAt(0);
-        Integer[] answer = new Integer[s.length()];
 
-        int p = 1000;
-        for (int i = 0; i < s.length(); i++) {
-            if(s.charAt(i) != target){
-                p++;
-                answer[i] = p;
-            }
-            else{
-                p = 0;
-                answer[i] = p;
-            }
-        }
-
-        p = 1000;
-        for (int i = s.length()-1; i >= 0; i--) {
-            if(s.charAt(i) != target){
-                p++;
-                answer[i] = Math.min(answer[i], p);
-            }
-            else p = 0;
-        }
-
-        for (Integer i : answer) {
-            System.out.print(i+" ");
-        }
-    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         String s = st.nextToken();
-        String t = st.nextToken();
-        solution(s, t);
+        char t = st.nextToken().charAt(0);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i)==t){
+                sb.append(0).append(" ");
+                continue;
+            }
+            int min = Integer.MAX_VALUE;
+            for (int j = i+1; j < s.length(); j++) {
+                if(s.charAt(j)==t){
+                    min = Math.min(min, j-i);
+                }
+            }
+            for (int j = i-1; j >= 0; j--) {
+                if(s.charAt(j)==t){
+                    min = Math.min(min, i-j);
+                }
+            }
+            sb.append(min).append(" ");
+        }
+        System.out.println(sb);
     }
 }
