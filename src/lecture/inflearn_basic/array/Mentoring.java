@@ -3,42 +3,40 @@ package lecture.inflearn_basic.array;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class Mentoring {
-    public static int solution(int student, int test, int[][] arr){
-        int answer = 0;
-        for (int i = 1; i <= student; i++) {
-            for (int j = 1; j <= student; j++) { //(i, j) 학생 쌍 비교
-                int cnt = 0;
-                for (int k = 0; k < test; k++) {
-                    int pi = 0, pj = 0;
-                    for (int l = 0; l < student; l++) {
-                        // 현재 비교하는 학생은 i, j학생
-                        if(arr[k][l]==i) pi=l; //k번째 테스트에서의 i번 학생의 등수
-                        if(arr[k][l]==j) pj=l; //k번째 테스트에서의 j번 학생의 등수
-                    }
-                    if(pi<pj) cnt++; //이번 시험에서 i가 j보다 잘봤으면 카운트 업!
-                }
-                //모든 시험에서 i가 j보다 잘봤으면 (i, j) 조합이 가능하므로 answer 증가!
-                if(cnt==test) answer++;
+    static int[][] arr;
+    static int n, m;
+    public static boolean isAvailable(int a, int b){
+        for (int i = 0; i < m; i++) { //전체 시험 횟수 m번에 대해서
+            int idxA = 0, idxB = 0;
+            for (int j = 0; j < n; j++) {
+                if(arr[i][j]==a) idxA = j;
+                if(arr[i][j]==b) idxB = j;
             }
+            if(idxA>=idxB) return false;
         }
-        return answer;
+        return true;
     }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int studentNum = Integer.parseInt(st.nextToken());
-        int testNum = Integer.parseInt(st.nextToken());
-        int[][] arr = new int[testNum][studentNum];
-        for (int i = 0; i < testNum; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < studentNum; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
+        String[] inputArr = br.readLine().split(" ");
+        n = Integer.parseInt(inputArr[0]); //반 학생수
+        m = Integer.parseInt(inputArr[1]); //테스트 수
+        arr = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            inputArr = br.readLine().split(" ");
+            for (int j = 0; j < n; j++) {
+                arr[i][j] = Integer.parseInt(inputArr[j]);
             }
         }
-        System.out.println(solution(studentNum, testNum, arr));
+        int answer = 0;
+        for (int i = 0; i < n; i++) { //i번 학생 기준으로
+            for (int j = 0; j < n; j++) { //j번 학생이 멘티가 될 수 있는지
+                if(i==j) continue;
+                if(isAvailable(i+1, j+1)) answer++;
+            }
+        }
+        System.out.println(answer);
     }
 }
