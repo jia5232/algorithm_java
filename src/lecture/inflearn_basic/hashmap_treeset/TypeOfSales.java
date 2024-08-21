@@ -3,46 +3,39 @@ package lecture.inflearn_basic.hashmap_treeset;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.Map;
 
 
 public class TypeOfSales {
-    public static void solution(int n, int k, int[] arr){
-        HashMap<Integer, Integer> map = new HashMap<>();
-        ArrayList<Integer> answer = new ArrayList<>();
-
-        for (int i = 0; i < k; i++) {
-            if(map.containsKey(arr[i])) map.put(arr[i], map.get(arr[i])+1);
-            else map.put(arr[i], 1);
-        }
-
-        answer.add(map.keySet().size());
-
-        for (int i = k; i < n; i++) {
-            if(map.containsKey(arr[i])) map.put(arr[i], map.get(arr[i])+1);
-            else map.put(arr[i], 1);
-
-            if(map.get(arr[i-k])==1) map.remove(arr[i-k]);
-            else map.put(arr[i-k], map.get(arr[i-k])-1);
-
-            answer.add(map.keySet().size());
-        }
-
-        for (Integer i : answer) {
-            System.out.print(i+" ");
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
-        st = new StringTokenizer(br.readLine());
+        String[] inputArr = br.readLine().split(" ");
+        int n = Integer.parseInt(inputArr[0]);
+        int k = Integer.parseInt(inputArr[1]);
+        inputArr = br.readLine().split(" ");
         int[] arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(st.nextToken());
-        solution(n, k, arr);
+        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(inputArr[i]);
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < k; i++) {
+            int tmp = arr[i];
+            if(map.containsKey(tmp)) map.put(tmp, map.get(tmp)+1);
+            else map.put(tmp, 1);
+        }
+        System.out.print(map.keySet().size()+" ");
+        for (int i = k; i < n; i++) {
+            int plus = arr[i];
+            int minus = arr[i-k];
+
+            if(map.containsKey(plus)) map.put(plus, map.get(plus)+1);
+            else map.put(plus, 1);
+
+            if(map.containsKey(minus)){
+                if(map.get(minus)==1) map.remove(minus);
+                else map.put(minus, map.get(minus)-1);
+            }
+
+            System.out.print(map.keySet().size()+" ");
+        }
     }
 }

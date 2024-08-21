@@ -4,30 +4,30 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ClassPresident {
-    public static String solution(String str){
-        String[] arr = str.split("");
-        HashMap<String, Integer> hashMap = new HashMap<>();
-        for (String s : arr) {
-            if(hashMap.containsKey(s)) hashMap.put(s, hashMap.get(s)+1);
-            else hashMap.put(s, 1);
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        Map<String, Integer> map = new HashMap<>();
+        String[] arr = br.readLine().split("");
+        for(String s : arr){
+            if(map.containsKey(s)) map.put(s, map.get(s)+1);
+            else map.put(s, 1);
         }
-        String result = "";
         int max = Integer.MIN_VALUE;
-        for (String s : hashMap.keySet()) {
-            if(hashMap.get(s) > max){
-                max = hashMap.get(s);
-                result = s;
+        for(int i : map.values()){
+            if(i>max){
+                max = i;
             }
         }
-        return result;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int num = Integer.parseInt(br.readLine());
-        String str = br.readLine();
-        System.out.println(solution(str));
+        String answer = "";
+        for(String s : map.keySet()){
+            if(map.get(s)==max){
+                answer = s;
+            }
+        }
+        System.out.println(answer);
     }
 }
