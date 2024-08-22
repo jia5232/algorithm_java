@@ -7,22 +7,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Curriculum {
-    public static boolean solution(char[] mandatory, char[] course){
-        Queue<Character> mandatoryQ = new LinkedList<>();
-        Queue<Character> courseQ = new LinkedList<>();
-        for (char c : mandatory) mandatoryQ.add(c);
-        for (char c : course) {
-            if(mandatoryQ.contains(c)) courseQ.add(c);
-        }
-        if(mandatoryQ.equals(courseQ)) return true;
-        else return false;
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String mandatory = br.readLine();
-        String course = br.readLine();
-        if(solution(mandatory.toCharArray(), course.toCharArray())) System.out.println("YES");
+        String str1 = br.readLine();
+        String str2 = br.readLine();
+        Queue<Character> queue1 = new LinkedList<>();
+        Queue<Character> queue2 = new LinkedList<>();
+        for (char c : str1.toCharArray()){
+            queue1.offer(c);
+        }
+        for (char c : str2.toCharArray()){
+            if(queue1.contains(c)) queue2.offer(c);
+        }
+        if(queue1.equals(queue2)) System.out.println("YES");
         else System.out.println("NO");
     }
 }

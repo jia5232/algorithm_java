@@ -1,107 +1,50 @@
 package lecture.inflearn_basic.stack_queue;
 
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.util.Stack;
-//import java.util.StringTokenizer;
-//
-//public class CraneMachine {
-//    public static int solution(int size, int[][] arr, int[] moves){
-//        int answer = 0;
-//        Stack<Integer> stack = new Stack<>();
-//        for (int move : moves) {
-//            for (int i = 1; i <= size; i++) {
-//                if(arr[i][move]>0){
-//                    if(!stack.isEmpty()){
-//                        if(stack.peek()==arr[i][move]){
-//                            stack.pop();
-//                            answer+=2;
-//                        }
-//                        else stack.push(arr[i][move]);
-//                    }
-//                    else stack.push(arr[i][move]);
-//                    arr[i][move] = 0;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        return answer;
-//    }
-//
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        StringTokenizer st;
-//        int size = Integer.parseInt(br.readLine());
-//        int[][] arr = new int[size+1][size+1];
-//        for (int i = 1; i <= size; i++) {
-//            st = new StringTokenizer(br.readLine());
-//            for (int j = 1; j <= size; j++) {
-//                arr[i][j] = Integer.parseInt(st.nextToken());
-//            }
-//        }
-//
-//        int movesSize = Integer.parseInt(br.readLine());
-//        int[] moves = new int[movesSize];
-//        st = new StringTokenizer(br.readLine());
-//        for (int i = 0; i < movesSize; i++) {
-//            moves[i] = Integer.parseInt(st.nextToken());
-//        }
-//
-//        System.out.println(solution(size, arr, moves));
-//    }
-//}
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
-import java.util.StringTokenizer;
 
 public class CraneMachine {
-    public static int solution(int[][] arr, int[] moves){
-        int answer = 0;
-        Stack<Integer> stack = new Stack<>();
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        int[][] board = new int[n][n];
+        String[] inputArr;
+        for (int i = 0; i < n; i++) {
+            inputArr = br.readLine().split(" ");
+            for (int j = 0; j < n; j++) {
+                board[i][j] = Integer.parseInt(inputArr[j]);
+            }
+        }
+        int m = Integer.parseInt(br.readLine());
+        inputArr = br.readLine().split(" ");
+        int[] moves = new int[m];
+        for (int i = 0; i < m; i++) {
+            moves[i] = Integer.parseInt(inputArr[i]);
+        }
 
+        Stack<Integer> stack = new Stack<>();
+        int answer = 0;
         for (int move : moves) {
-            for (int i = 1; i < arr.length; i++) {
-                if(arr[i][move]!=0) {
-                    if(stack.isEmpty()){
-                        stack.add(arr[i][move]);
-                        arr[i][move] = 0;
-                        break;
+            for (int j = 0; j < n; j++) {
+                int doll = board[j][move-1];
+                if(doll!=0){
+                    if(!stack.isEmpty()){
+                        if(stack.peek()==doll){
+                            stack.pop();
+                            answer += 2;
+                        } else {
+                            stack.push(doll);
+                        }
+                    }else{
+                        stack.push(doll);
                     }
-                    if(stack.peek()==arr[i][move]){
-                        stack.pop();
-                        answer+=2;
-                        arr[i][move] = 0;
-                        break;
-                    }
-                    stack.add(arr[i][move]);
-                    arr[i][move] = 0;
+                    board[j][move-1] = 0;
                     break;
                 }
             }
         }
-        return answer;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        int num = Integer.parseInt(br.readLine());
-        int[][] arr = new int[num+1][num+1];
-        for (int i = 1; i <= num; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 1; j <= num; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
-            }
-        }
-        int moveNum = Integer.parseInt(br.readLine());
-        int[] moves = new int[moveNum];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < moveNum; i++) moves[i] = Integer.parseInt(st.nextToken());
-        System.out.println(solution(arr, moves));
+        System.out.println(answer);
     }
 }

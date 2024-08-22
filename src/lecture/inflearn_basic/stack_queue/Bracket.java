@@ -1,55 +1,25 @@
 package lecture.inflearn_basic.stack_queue;
 
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.util.Stack;
-//
-//public class Bracket {
-//    public static boolean solution(String[] arr){
-//        Stack<String> stack = new Stack<>();
-//        for (String s : arr) {
-//            if(s.equals("(")) stack.push("(");
-//            else{
-//                if(stack.empty()) return false;
-//                else stack.pop();
-//            }
-//        }
-//        if(stack.empty()) return true;
-//        else return false;
-//    }
-//
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        String str = br.readLine();
-//        if(solution(str.split(""))) System.out.println("YES");
-//        else System.out.println("NO");
-//    }
-//}
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
 
 public class Bracket {
-    public static boolean solution(char[] arr){
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String str = br.readLine();
         Stack<Character> stack = new Stack<>();
-        for (char c : arr) {
-            if(c=='(') stack.add('(');
+        String answer = "YES";
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if(c=='(') stack.push('(');
             else{
-                if(stack.isEmpty()) return false;
+                if(stack.isEmpty()) answer = "NO";
                 else stack.pop();
             }
         }
-        if(stack.isEmpty()) return true;
-        else return false;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = br.readLine();
-        if(solution(str.toCharArray())) System.out.println("YES");
-        else System.out.println("NO");
+        if(!stack.isEmpty()) answer = "NO";
+        System.out.println(answer);
     }
 }
