@@ -4,32 +4,32 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 public class BinarySearch {
-    public static int solution(int[] arr, int m){
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputArr = br.readLine().split(" ");
+        int n = Integer.parseInt(inputArr[0]);
+        int m = Integer.parseInt(inputArr[1]);
+        int[] arr = new int[n];
+        inputArr = br.readLine().split(" ");
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(inputArr[i]);
+        }
         Arrays.sort(arr);
-        int answer = 0, lt = 0, rt = arr.length-1;
+        int lt = 0, rt = n-1;
+        int answer = 0;
         while (lt<=rt){
             int mid = (lt+rt)/2;
-            if(arr[mid]==m) {
+            if(arr[mid]==m){
                 answer = mid+1;
                 break;
+            }else if(arr[mid]>m){
+                rt = mid - 1;
+            } else {
+                lt = mid + 1;
             }
-            if(arr[mid]<m) lt = mid+1;
-            else rt = mid-1;
         }
-        return answer;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        int[] arr = new int[n];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(st.nextToken());
-        System.out.println(solution(arr, m));
+        System.out.println(answer);
     }
 }
