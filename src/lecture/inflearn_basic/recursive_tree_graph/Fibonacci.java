@@ -12,13 +12,14 @@ public class Fibonacci {
         if(n<=2) return arr[n] = 1;
         else return arr[n] = fibonacci(n-1) + fibonacci(n-2);
     }
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int num = Integer.parseInt(br.readLine());
-        arr = new int[num+1];
-        fibonacci(num);
-        for (int i = 1; i <= num; i++) {
-            System.out.print(arr[i]+" ");
+        int n = Integer.parseInt(br.readLine());
+        arr = new int[n+1];
+        fibonacci(n);
+        for (int i = 1; i <= n; i++) {
+            System.out.println(arr[i]+" ");
         }
     }
 }

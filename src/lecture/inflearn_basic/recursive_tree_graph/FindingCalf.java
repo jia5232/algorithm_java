@@ -5,42 +5,39 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.StringTokenizer;
 
 public class FindingCalf {
     static int[] dis = {1, -1, 5};
     static int[] ch;
-    static Queue<Integer> Q = new LinkedList<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputArr = br.readLine().split(" ");
+        int s = Integer.parseInt(inputArr[0]);
+        int e = Integer.parseInt(inputArr[1]);
 
-    public static int BFS(int s, int e){
+        int answer = 1;
         ch = new int[10001];
-        ch[s] = 1; //출발지점에 출발했다고 표시
-        Q.add(s); //출발 지점을 큐에 추가
-        int L = 0;
-        while (!Q.isEmpty()){
-            int len = Q.size();
-            for (int i = 0; i < len; i++) {
-                int x = Q.poll(); //큐에서 루트가 될 데이터를 뺴온다.
-
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(s);
+        ch[s] = 1;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int now = queue.poll();
                 for (int j = 0; j < 3; j++) {
-                    int nx = x + dis[j]; //새로운 방문 지점
-                    if(nx==e) return L+1; //새로운 방문지점이 e이면 현재의 레벨+1을 리턴!
-                    if(nx>=1 && nx<=10000 && ch[nx]==0){ //nx가 범위안에 들어오고 이전에 방문한적이 없으면
-                        ch[nx] = 1; //방문했다고 표시
-                        Q.add(nx); //방문하는 위치를 큐에 추가
+                    int next = now + dis[j];
+                    if(next==e){
+                        System.out.println(answer);
+                        return;
+                    }
+                    if(next>0 && next<=10000 && ch[next]==0){
+                        ch[next] = 1;
+                        queue.add(next);
                     }
                 }
             }
-            L++; //i for문이 다 돌았으면 해당 레벨의 자식들까지 처리가 완료됨 -> 레벨 증가
+            answer++;
         }
-        return 0;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int s = Integer.parseInt(st.nextToken());
-        int e = Integer.parseInt(st.nextToken());
-        System.out.println(BFS(s, e));
+        System.out.println(answer);
     }
 }

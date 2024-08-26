@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class Factorial {
     public static int factorial(int n){
         if(n==1) return 1;
-        return n*factorial(n-1);
+        else return factorial(n-1) * n;
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

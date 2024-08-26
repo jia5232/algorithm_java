@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Stable {
-    public static int count(int[] arr, int dist){ //해당 거리를 지키면서 배치할 수 있는 말의 마릿수
-        int cnt = 1; //배치한 말의 마릿수
-        int ep = arr[0]; //이전에 말을 배치한 마구간
-        for (int i = 1; i < arr.length; i++) {
-            if(arr[i]-ep >= dist){
+    public static int count(int[] arr, int dist){
+        int cnt = 1;
+        int before = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            if(arr[i]-before >= dist){
                 cnt++;
-                ep = arr[i];
+                before = arr[i];
             }
         }
         return cnt;
@@ -25,7 +25,7 @@ public class Stable {
         int lt = 1, rt = arr[n-1];
         while (lt<=rt){
             int mid = (lt+rt)/2;
-            if(count(arr, mid) >= c){
+            if(count(arr, mid)>=c){
                 answer = mid;
                 lt = mid+1;
             }
@@ -34,7 +34,7 @@ public class Stable {
         return answer;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());

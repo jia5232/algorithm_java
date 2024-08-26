@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class RecursiveBinary {
-    public static void recursive(int n){
-        if(n/2==0) System.out.print(n%2);
-        else{
-            recursive(n/2);
-            System.out.print(n%2);
-        }
+    public static String recursive(int n, String s){
+        if(n==0) return s;
+        s += n%2;
+        return recursive(n/2, s);
     }
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int num = Integer.parseInt(br.readLine());
-        recursive(num);
+        int n = Integer.parseInt(br.readLine());
+        String answer = new StringBuilder(recursive(n, "")).reverse().toString();
+        System.out.println(answer);
     }
 }

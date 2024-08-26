@@ -1,35 +1,35 @@
 package lecture.inflearn_basic.recursive_tree_graph;
 
+
 public class BinaryTreeDFS { //깊이 우선 탐색
     static class Node{
         int data;
         Node lt;
         Node rt;
-        public Node(int data) {
+
+        public Node(int data){
             this.data = data;
             lt = rt = null;
         }
     }
 
-    static Node root;
-
     public static void DFS(Node root){
-        if(root==null) return; //말단 노드면 종료시킴.
+        if(root==null) return;
         else{
-            //1. 전위 순회
-            System.out.print(root.data+" ");
+            // 전위 순회
+//            System.out.print(root.data+" ");
+//            DFS(root.lt);
+//            DFS(root.rt);
+
+            // 중위 순회
+//            DFS(root.lt);
+//            System.out.print(root.data+" ");
+//            DFS(root.rt);
+
+            // 후위 순회
             DFS(root.lt);
             DFS(root.rt);
-
-//            //2. 중위 순회
-//            DFS(root.lt);
-//            System.out.print(root.data+" ");
-//            DFS(root.rt);
-
-//            //3. 후위 순회
-//            DFS(root.lt);
-//            DFS(root.rt);
-//            System.out.print(root.data+" ");
+            System.out.print(root.data+" ");
         }
     }
 
@@ -43,7 +43,6 @@ public class BinaryTreeDFS { //깊이 우선 탐색
         root.rt.rt = new Node(7);
         DFS(root);
     }
-
 }
 
 /*
