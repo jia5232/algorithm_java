@@ -3,78 +3,40 @@ package lecture.inflearn_basic.dfs_bfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
-//public class SubsetWithEqualSum {
-//    static String answer = "NO";
-//    static boolean flag = false;
-//    static int n, total;
-//    static StringTokenizer st;
-//
-//    public static void DFS(int L, int sum, int[] arr){
-//        if(flag) return;
-//
-//        if(sum > (total/2)) return;
-//
-//        if(L==n){
-//            if(total == 2*sum){
-//                answer = "YES";
-//                flag = true;
-//            }
-//        }
-//        else{
-//            DFS(L+1, sum+arr[L], arr);
-//            DFS(L+1, sum, arr);
-//        }
-//    }
-//
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        n = Integer.parseInt(br.readLine());
-//        int[] arr = new int[n];
-//        st = new StringTokenizer(br.readLine());
-//        for (int i = 0; i < n; i++) {
-//            arr[i] = Integer.parseInt(st.nextToken());
-//            total += arr[i];
-//        }
-//        DFS(0, 0, arr);
-//        System.out.println(answer);
-//    }
-//}
+import java.util.Arrays;
 
 public class SubsetWithEqualSum {
-    static String answer = "NO";
-    static boolean flag = false;
-    static int n, total;
+    static int n;
+    static int[] arr;
+    static boolean answer;
+    static int arrSum;
 
-    public static void DFS(int L, int sum, int[] arr){
-        if(flag) return;
-
-        if(sum > (total/2)) return;
+    public static void DFS(int L, int sum){
+        if(answer) return;
+        if(sum>arrSum/2) return;
 
         if(L==n){
-            if(total == sum*2){
-                answer = "YES";
-                flag = true;
+            if(sum*2==arrSum){
+                answer = true;
             }
+            return;
         }
-        else{
-            DFS(L+1, sum+arr[L], arr);
-            DFS(L+1, sum, arr);
-        }
+        DFS(L+1, sum+arr[L]);
+        DFS(L+1, sum);
     }
 
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        String[] inputArr = br.readLine().split(" ");
+        arr = new int[n];
+        answer = false;
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-            total += arr[i];
+            arr[i] = Integer.parseInt(inputArr[i]);
         }
-        DFS(0, 0, arr);
-        System.out.println(answer);
+        arrSum = Arrays.stream(arr).sum();
+        DFS(0, 0);
+        if(answer) System.out.println("YES");
+        else System.out.println("NO");
     }
 }
