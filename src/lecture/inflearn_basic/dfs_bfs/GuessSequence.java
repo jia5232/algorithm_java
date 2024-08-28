@@ -67,7 +67,7 @@ public class GuessSequence {
     public static int combination(int n, int r){
         if(dy[n][r]>0) return dy[n][r];
         if(n==r || r==0) return 1;
-        else return dy[n][r] = combination(n-1, r-1)+combination(n-1, r);
+        else return combination(n-1, r-1) + combination(n-1, r);
     }
 
     public static void DFS(int L, int sum){
@@ -76,15 +76,14 @@ public class GuessSequence {
         if(L==n){
             if(sum==f){
                 StringBuilder sb = new StringBuilder();
-                for (int i : pm) {
+                for(int i : pm){
                     sb.append(i+" ");
                 }
                 System.out.println(sb);
                 flag = true;
             }
-        }
-        else{
-            for (int i = 1; i <= n; i++) { //i가 인덱스가 아니라 수열을 구성하는 숫자 그 자체!
+        } else {
+            for (int i = 1; i <= n; i++) {
                 if(ch[i]==0){
                     ch[i] = 1;
                     pm[L] = i;

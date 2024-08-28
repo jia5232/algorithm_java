@@ -8,51 +8,56 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class MazeShortestPath {
-    static class Point {
-        public int x, y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-    static int[] dx = {-1, 0, 1, 0}; //행
-    static int[] dy = {0, 1, 0, -1}; //열
     static int[][] board, dis;
+    static int[] dr = {-1, 0, 1, 0};
+    static int[] dc = {0, -1, 0, 1};
 
-    public static void BFS(int x, int y){
-        Queue<Point> Q = new LinkedList<>();
-        Q.add(new Point(x, y));
-        board[x][y] = 1;
-        while (!Q.isEmpty()){
-            Point tmp = Q.poll();
-            if(tmp.x==7 && tmp.y==7) break;
+    public static void BFS(){
+        Queue<Point> queue = new LinkedList<>();
+        queue.offer(new Point(0, 0));
+        board[0][0] = 1;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Point now = queue.poll();
+                if(now.r==6 && now.c==6) break;
 
-            for (int i = 0; i < 4; i++) {
-                int nextX = tmp.x + dx[i];
-                int nextY = tmp.y + dy[i];
-                if(nextX>=1 && nextX<=7 && nextY>=1 && nextY<=7 && board[nextX][nextY]==0){
-                    board[nextX][nextY] = 1;
-                    Q.add(new Point(nextX, nextY));
-                    dis[nextX][nextY] = dis[tmp.x][tmp.y] + 1;
+                for (int j = 0; j < 4; j++) {
+                    int nextR = now.r + dr[j];
+                    int nextC = now.c + dc[j];
+                    if(nextR>=0 && nextR<7 && nextC>=0 && nextC<7 && board[nextR][nextC]==0){
+                        board[nextR][nextC] = 1;
+                        queue.add(new Point(nextR, nextC));
+                        dis[nextR][nextC] = dis[now.r][now.c] + 1;
+                    }
                 }
             }
         }
     }
 
     public static void main(String[] args) throws IOException {
-        dis = new int[8][8];
-        board = new int[8][8];
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        board = new int[7][7];
+        dis = new int[7][7];
         StringTokenizer st;
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 0; i < 7; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 1; j <= 7; j++) {
+            for (int j = 0; j < 7; j++) {
                 board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        BFS(1, 1);
-        if(dis[7][7]==0) System.out.println(-1);
-        else System.out.println(dis[7][7]);
+        BFS();
+        if(dis[6][6]==0) System.out.println(-1);
+        else System.out.println(dis[6][6]);
+    }
+}
+
+class Point{
+    int r;
+    int c;
+
+    public Point(int r, int c){
+        this.r = r;
+        this.c = c;
     }
 }

@@ -3,7 +3,6 @@ package lecture.inflearn_basic.dfs_bfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class Permutation {
     static int n, m;
@@ -12,12 +11,11 @@ public class Permutation {
     public static void DFS(int L){
         if(L==m){
             StringBuilder sb = new StringBuilder();
-            for (int i : pm) {
-                sb.append(i+" ");
+            for(int i : pm){
+                sb.append(i).append(" ");
             }
             System.out.println(sb);
-        }
-        else{
+        } else {
             for (int i = 0; i < n; i++) {
                 if(ch[i]==0){
                     ch[i] = 1;
@@ -29,16 +27,18 @@ public class Permutation {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+        String[] inputArr = br.readLine().split(" ");
+        n = Integer.parseInt(inputArr[0]);
+        m = Integer.parseInt(inputArr[1]);
+        inputArr = br.readLine().split(" ");
         arr = new int[n];
-        pm = new int[m];
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(inputArr[i]);
+        }
         ch = new int[n];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) arr[i] = Integer.parseInt(st.nextToken());
+        pm = new int[m];
         DFS(0);
     }
 }

@@ -3,35 +3,37 @@ package lecture.inflearn_basic.dfs_bfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class MaximumScore {
-    static int n, limit;
-    static int answer = Integer.MIN_VALUE;
-    public static void DFS(int sum, int time, int L, int[][] arr){
-        if(time>limit) return;
+    static int[][] arr;
+    static int n, m;
+    static int max = 0;
 
+    public static void DFS(int L, int sum, int time){
         if(L==n){
-            if(sum>answer) answer = sum;
+            if(time<=m){
+                max = Math.max(max, sum);
+            }
+            return;
         }
-        else{
-            DFS(sum+arr[L][0], time+arr[L][1], L+1, arr);
-            DFS(sum, time, L+1, arr);
-        }
-    }
 
+        DFS(L+1, sum+arr[L][0], time+arr[L][1]);
+        DFS(L+1, sum, time);
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        limit = Integer.parseInt(st.nextToken());
-        int[][] arr = new int[n][2];
+        String[] inputArr = br.readLine().split(" ");
+        n = Integer.parseInt(inputArr[0]);
+        m = Integer.parseInt(inputArr[1]);
+        arr = new int[n][2];
         for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            arr[i][0] = Integer.parseInt(st.nextToken()); //점수
-            arr[i][1] = Integer.parseInt(st.nextToken()); //걸리는 시간
+            inputArr = br.readLine().split(" ");
+            int s = Integer.parseInt(inputArr[0]);
+            int t = Integer.parseInt(inputArr[1]);
+            arr[i][0] = s;
+            arr[i][1] = t;
         }
-        DFS(0, 0, 0, arr);
-        System.out.println(answer);
+        DFS(0, 0, 0);
+        System.out.println(max);
     }
 }
