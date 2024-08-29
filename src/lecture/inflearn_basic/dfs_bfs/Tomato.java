@@ -1,70 +1,5 @@
 package lecture.inflearn_basic.dfs_bfs;
 
-//import java.util.LinkedList;
-//import java.util.Queue;
-//import java.util.Scanner;
-//
-//public class Tomato {
-//    static class Point {
-//        public int x, y;
-//
-//        public Point(int x, int y) {
-//            this.x = x;
-//            this.y = y;
-//        }
-//    }
-//    static int[] dx = {-1, 0, 1, 0}; //행
-//    static int[] dy = {0, 1, 0, -1}; //열
-//    static int[][] board, dis;
-//    static int n, m; //n이 열, m이 행
-//    static Queue<Point> Q = new LinkedList<>();
-//
-//    public static void BFS(){
-//        while (!Q.isEmpty()){
-//            Point tmp = Q.poll();
-//            for (int i = 0; i < 4; i++) {
-//                int nx = tmp.x + dx[i];
-//                int ny = tmp.y + dy[i];
-//                if(nx>=0 && nx<n && ny>=0 && ny<m && board[nx][ny]==0){
-//                    board[nx][ny] = 1;
-//                    Q.add(new Point(nx, ny));
-//                    dis[nx][ny] = dis[tmp.x][tmp.y]+1;
-//                }
-//            }
-//        }
-//    }
-//
-//    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        m = sc.nextInt();
-//        n = sc.nextInt();
-//        board = new int[n][m];
-//        dis = new int[n][m];
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < m; j++) {
-//                board[i][j] = sc.nextInt();
-//                if(board[i][j]==1) Q.add(new Point(i, j));
-//                //출발점이 여러개이면 BFS가 돌기 전에 출발점들을 큐에 미리 다 넣어둔다!
-//            }
-//        }
-//        BFS();
-//        boolean flag = true;
-//        int answer = Integer.MIN_VALUE;
-//        for (int i = 0; i < n; i++) { //board에 0이 있으면 모든 토마토를 익힐 수 없으므로 최대값 안찾아도 됨
-//            for (int j = 0; j < m; j++) {
-//                if(board[i][j]==0) flag=false;
-//            }
-//        }
-//        if(flag){
-//            for (int i = 0; i < n; i++) {
-//                for (int j = 0; j < m; j++) {
-//                    answer = Math.max(answer, dis[i][j]);
-//                }
-//            }
-//        }
-//    }
-//}
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -72,72 +7,69 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Tomato {
-    static class Point{
-        int x;
-        int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
-    static int[][] board, dis;
-    static int n, m;
-    static Queue<Point> Q = new LinkedList<>();
-
-    public static void BFS(){
-        while (!Q.isEmpty()){
-            Point tmp = Q.poll();
-            for (int i = 0; i < 4; i++) {
-                int nextX = tmp.x + dx[i];
-                int nextY = tmp.y + dy[i];
-                if(nextX>=0 && nextX<n && nextY>=0 && nextY<m && board[nextX][nextY]==0){
-                    board[nextX][nextY] = 1;
-                    Q.add(new Point(nextX, nextY));
-                    dis[nextX][nextY] = dis[tmp.x][tmp.y]+1;
-                }
-            }
-        }
-    }
-
+public class Tomato{
+    static int m, n, tomatoes, ripe;
+    static int[][] board;
+    static int[] dr = {-1, 0, 1, 0};
+    static int[] dc = {0, -1, 0, 1};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        m = Integer.parseInt(st.nextToken()); //열
-        n = Integer.parseInt(st.nextToken()); //행
+        m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        Queue<Spot> queue = new LinkedList<>();
         board = new int[n][m];
-        dis = new int[n][m];
+        boolean isFound = false;
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < m; j++) {
-                board[i][j] = Integer.parseInt(st.nextToken());
-                if(board[i][j]==1) Q.add(new Point(i, j));
-            }
-        }
-
-        BFS();
-        boolean flag = true;
-        int answer = Integer.MIN_VALUE;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (board[i][j]==0) flag = false;
-            }
-        }
-
-        if(flag){
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    answer = Math.max(answer, dis[i][j]);
+                int t = Integer.parseInt(st.nextToken());
+                board[i][j] = t;
+                if(t==0) tomatoes++;
+                if(t==1){
+                    tomatoes++;
+                    ripe++;
+                    queue.add(new Spot(i, j));
                 }
             }
         }
 
-        if(flag) System.out.println(answer);
+        if(tomatoes==ripe){
+            System.out.println(0);
+            return;
+        }
+
+        int answer = 0;
+        while (!queue.isEmpty()){
+            if(isFound) break;
+
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Spot now = queue.poll();
+                for (int j = 0; j < 4; j++) {
+                    int nextR = now.r + dr[j];
+                    int nextC = now.c + dc[j];
+                    if(nextR>=0 && nextR<n && nextC>=0 && nextC<m && board[nextR][nextC]==0){
+                        queue.add(new Spot(nextR, nextC));
+                        board[nextR][nextC] = 1;
+                        ripe++;
+                    }
+                }
+            }
+            answer++;
+            if(tomatoes==ripe) isFound = true;
+        }
+
+        if(isFound) System.out.println(answer);
         else System.out.println(-1);
+    }
+}
+
+class Spot {
+    int r, c;
+
+    public Spot(int x, int y){
+        this.r = x;
+        this.c = y;
     }
 }

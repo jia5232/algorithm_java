@@ -13,13 +13,13 @@ public class MazeShortestPath {
     static int[] dc = {0, -1, 0, 1};
 
     public static void BFS(){
-        Queue<Point> queue = new LinkedList<>();
-        queue.offer(new Point(0, 0));
+        Queue<Spot> queue = new LinkedList<>();
+        queue.offer(new Spot(0, 0));
         board[0][0] = 1;
         while (!queue.isEmpty()){
             int size = queue.size();
             for (int i = 0; i < size; i++) {
-                Point now = queue.poll();
+                Spot now = queue.poll();
                 if(now.r==6 && now.c==6) break;
 
                 for (int j = 0; j < 4; j++) {
@@ -27,7 +27,7 @@ public class MazeShortestPath {
                     int nextC = now.c + dc[j];
                     if(nextR>=0 && nextR<7 && nextC>=0 && nextC<7 && board[nextR][nextC]==0){
                         board[nextR][nextC] = 1;
-                        queue.add(new Point(nextR, nextC));
+                        queue.add(new Spot(nextR, nextC));
                         dis[nextR][nextC] = dis[now.r][now.c] + 1;
                     }
                 }
