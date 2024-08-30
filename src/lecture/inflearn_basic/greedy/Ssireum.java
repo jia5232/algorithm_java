@@ -1,88 +1,50 @@
 package lecture.inflearn_basic.greedy;
 
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.util.StringTokenizer;
-//
-//public class Ssireum {
-//    public static int solution(Person[] arr){
-//        int answer = arr.length;
-//        for (int i = 0; i < arr.length; i++) {
-//            for (int j = 0; j < arr.length; j++) {
-//                if(i==j) continue;
-//                if(arr[j].height>arr[i].height && arr[j].weight>arr[i].weight){
-//                    answer--;
-//                    break;
-//                }
-//            }
-//        }
-//        return answer;
-//    }
-//
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        StringTokenizer st;
-//        int num = Integer.parseInt(br.readLine());
-//        Person[] arr = new Person[num];
-//        for (int i = 0; i < num; i++) {
-//            st = new StringTokenizer(br.readLine());
-//            arr[i] = new Person(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-//        }
-//        System.out.println(solution(arr));
-//    }
-//}
-//
-//class Person{
-//    int height;
-//    int weight;
-//
-//    public Person(int height, int weight) {
-//        this.height = height;
-//        this.weight = weight;
-//    }
-//}
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Arrays;
 
 public class Ssireum {
 
-    public static int solution(Person[] arr){
-        int answer = arr.length;
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                if(i==j) continue;
-                if(arr[i].height<arr[j].height && arr[i].weight<arr[j].weight){
-                    answer--;
-                    break;
-                }
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        Person[] persons = new Person[n];
+        String[] inputArr;
+        for (int i = 0; i < n; i++) {
+            inputArr = br.readLine().split(" ");
+            int h = Integer.parseInt(inputArr[0]);
+            int w = Integer.parseInt(inputArr[1]);
+            persons[i] = new Person(h, w);
+        }
+        Arrays.sort(persons);
+        int answer = 0;
+        int maxWeight = 0;
+        for (int i = 0; i < n; i++) {
+            Person now = persons[i];
+            if(maxWeight<now.weight){
+                answer++;
+                maxWeight = now.weight;
             }
         }
-        return answer;
+        System.out.println(answer);
     }
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        int num = Integer.parseInt(br.readLine());
-        Person[] arr = new Person[num];
-        for (int i = 0; i < num; i++) {
-            st = new StringTokenizer(br.readLine());
-            arr[i] = new Person(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+    static class Person implements Comparable<Person>{
+        int height;
+        int weight;
+
+        public Person(int height, int weight){
+            this.height = height;
+            this.weight = weight;
         }
-        System.out.println(solution(arr));
-    }
-}
 
-class Person{
-    int height;
-    int weight;
-
-    public Person(int height, int weight) {
-        this.height = height;
-        this.weight = weight;
+        @Override
+        public int compareTo(Person o){
+            if(this.height == o.height){
+                return o.weight - this.weight;
+            } else return o.height - this.height;
+        }
     }
 }
