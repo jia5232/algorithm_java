@@ -3,22 +3,24 @@ package lecture.inflearn_basic.greedy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
 
-public class WonderLandUnionFind {
+class WonderLandUnionFind{
     static class Edge implements Comparable<Edge>{
         int v1;
         int v2;
         int cost;
 
-        public Edge(int v1, int v2, int cost) {
+        public Edge(int v1, int v2, int cost){
             this.v1 = v1;
             this.v2 = v2;
             this.cost = cost;
         }
 
         @Override
-        public int compareTo(Edge o) {
+        public int compareTo(Edge o){
             return this.cost - o.cost;
         }
     }
@@ -39,26 +41,27 @@ public class WonderLandUnionFind {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int answer = 0;
-        int num = Integer.parseInt(st.nextToken());
-        int edgeNum = Integer.parseInt(st.nextToken());
-        ArrayList<Edge> tree = new ArrayList<>();
-        unf = new int[num+1];
-        for (int i = 1; i <= num; i++) unf[i] = i;
-        for (int i = 0; i < edgeNum; i++) {
+        int v = Integer.parseInt(st.nextToken());
+        int e = Integer.parseInt(st.nextToken());
+        unf = new int[v+1];
+        for (int i = 1; i <= v; i++) unf[i] = i;
+        ArrayList<Edge> graph = new ArrayList<>();
+        for (int i = 0; i < e; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
-            tree.add(new Edge(a, b, c));
+            int cost = Integer.parseInt(st.nextToken());
+            graph.add(new Edge(a, b, cost));
         }
-        Collections.sort(tree);
-        for (Edge ob : tree) {
-            int fv1 = Find(ob.v1);
-            int fv2 = Find(ob.v2);
-            if(fv1!=fv2){
-                Union(fv1, fv2);
-                answer += ob.cost;
+
+        int answer = 0;
+        Collections.sort(graph);
+        for (Edge edge : graph) {
+            int fa = Find(edge.v1);
+            int fb = Find(edge.v2);
+            if(fa!=fb){
+                Union(fa, fb);
+                answer += edge.cost;
             }
         }
         System.out.println(answer);
