@@ -3,56 +3,56 @@ package boj.silver;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class S14889 {
-    static int n;
+    static int n, answer = Integer.MAX_VALUE;
     static int[][] board;
-    static int[] combi, check;
-    static int min = Integer.MAX_VALUE;
+    static int[] ch;
 
-    public static void DFS(int idx, int count){
-        if(count==n/2){
-            int startScore = 0;
-            int linkScore = 0;
-
+    public static void DFS(int L, int s){
+        if(L==n/2){
+            int start = 0;
+            int link = 0;
             for (int i = 0; i < n; i++) {
                 for (int j = i+1; j < n; j++) {
-                    if(check[i]==1 && check[j]==1){
-                        startScore += board[i][j];
-                        startScore += board[j][i];
-                    } else if(check[i]==0 && check[j]==0){
-                        linkScore += board[i][j];
-                        linkScore += board[j][i];
+                    if(ch[i]==1 && ch[j]==1){
+                        start += board[i][j];
+                        start += board[j][i];
+                    }
+                    else if(ch[i]==0 && ch[j]==0){
+                        link += board[i][j];
+                        link += board[j][i];
                     }
                 }
             }
-
-            min = Math.min(min, Math.abs(startScore-linkScore));
+            answer = Math.min(answer, Math.abs(start-link));
             return;
         }else{
-            for (int i = idx; i < n; i++) {
-                if(check[i]==0){
-                    check[i] = 1;
-                    DFS(i+1, count+1);
-                    check[i] = 0;
+            for (int i = s; i < n; i++) {
+                if(ch[i]==0){
+                    ch[i] = 1;
+                    DFS(L+1, i+1);
+                    ch[i] = 0;
                 }
             }
         }
     }
 
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         board = new int[n][n];
-        combi = new int[n/2];
-        check = new int[n];
-        String[] inputArr;
+        ch = new int[n];
+        StringTokenizer st;
         for (int i = 0; i < n; i++) {
-            inputArr = br.readLine().split(" ");
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < n; j++) {
-                board[i][j] = Integer.parseInt(inputArr[j]);
+                board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
         DFS(0, 0);
-        System.out.println(min);
+        System.out.println(answer);
     }
 }
