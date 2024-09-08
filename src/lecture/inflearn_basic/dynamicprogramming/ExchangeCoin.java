@@ -8,15 +8,14 @@ import java.util.StringTokenizer;
 
 public class ExchangeCoin {
     public static int n, m;
+    public static int[] dy;
 
-    public static int[] dy; //i라는 금액을 만드는데 드는 최소 동전 개수
-
-    public static int solution(int[] coin){
+    public static int solution(int[] coins){
         Arrays.fill(dy, Integer.MAX_VALUE);
         dy[0] = 0;
-        for (int i = 0; i < coin.length; i++) {
-            for (int j = coin[i]; j <= m; j++) {
-                dy[j] = Math.min(dy[j], dy[j-coin[i]]+1);
+        for (int i = 0; i < coins.length; i++) {
+            for (int j = coins[i]; j <= m; j++) {
+                dy[j] = Math.min(dy[j], dy[j-coins[i]]+1);
             }
         }
         return dy[m];
