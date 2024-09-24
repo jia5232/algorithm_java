@@ -6,55 +6,52 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class G15686 {
-    static class Point{
-        int x, y;
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    static int n, m, len, answer = Integer.MAX_VALUE;
-    static ArrayList<Point> ck, hs;
+    static int n, m, answer = Integer.MAX_VALUE;
+    static int[][] board;
+    static ArrayList<int[]> chickens = new ArrayList<>();
+    static ArrayList<int[]> houses = new ArrayList<>();
     static int[] combi;
 
-    public static void DFS(int L, int s){
-        if(L==m){
-            int sum = 0;
-            for(Point h : hs){
-                int min = Integer.MAX_VALUE;
-                for(int p : combi){
-                    min = Math.min(min, Math.abs(h.x - ck.get(p).x) + Math.abs(h.y - ck.get(p).y));
-                }
-                sum += min; //도시의 피자 배달 거리
-            }
-            answer = Math.min(answer, sum);
-        } else{
-            for(int i=s; i<len; i++){
-                combi[L] = i;
-                DFS(L+1, s+1);
-            }
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] inputArr = br.readLine().split(" ");
         n = Integer.parseInt(inputArr[0]);
         m = Integer.parseInt(inputArr[1]);
-        ck = new ArrayList<>();
-        hs = new ArrayList<>();
+        board = new int[n][n];
         for (int i = 0; i < n; i++) {
             inputArr = br.readLine().split(" ");
             for (int j = 0; j < n; j++) {
-                int tmp = Integer.parseInt(inputArr[j]);
-                if(tmp==1) hs.add(new Point(i, j));
-                else if(tmp==2) ck.add(new Point(i, j));
+                board[i][j] = Integer.parseInt(inputArr[j]);
+                if(board[i][j]==2){
+                    chickens.add(new int[]{i, j});
+                }
+                if(board[i][j]==1){
+                    houses.add(new int[]{i, j});
+                }
             }
         }
-        len = ck.size();
         combi = new int[m];
         DFS(0, 0);
         System.out.println(answer);
+    }
+
+    public static void DFS(int L, int s){
+        if(L==m){
+            int cityLength = 0;
+            for(int[] house : houses){
+                int houseLength = Integer.MAX_VALUE;
+                for (int i = 0; i < m; i++) {
+                    int[] chicken = chickens.get(combi[i]);
+                    houseLength = Math.min(houseLength, Math.abs(chicken[0]-house[0])+Math.abs(chicken[1]-house[1]));
+                }
+                cityLength += houseLength;
+            }
+            answer = Math.min(answer, cityLength);
+        } else {
+            for (int i = s; i < chickens.size(); i++) {
+                combi[L] = i;
+                DFS(L+1, i+1);
+            }
+        }
     }
 }
