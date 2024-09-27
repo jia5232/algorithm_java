@@ -4,54 +4,51 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class G13023 {
+    static int n, m;
+    static ArrayList<ArrayList<Integer>> graph;
+    static boolean isFound = false;
     static int[] ch;
-    static ArrayList<ArrayList<Integer>> arrayList;
-
-    static boolean arrive;
-
-    public static void DFS(int n, int L){
-        if(L==5 || arrive){
-            arrive = true;
-            return;
-        }
-        else{
-            ch[n] = 1;
-            for (Integer i : arrayList.get(n)) {
-                if(ch[i]==0){
-                    DFS(i, L+1);
-                }
-            }
-            ch[n] = 0;
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
+        String[] inputArr = br.readLine().split(" ");
+        n = Integer.parseInt(inputArr[0]);
+        m = Integer.parseInt(inputArr[1]);
         ch = new int[n];
-        arrayList = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            arrayList.add(new ArrayList<>());
+        graph = new ArrayList<>();
+        for (int i = 0; i <= n; i++) {
+            graph.add(new ArrayList<>());
         }
         for (int i = 0; i < m; i++) {
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            arrayList.get(a).add(b);
-            arrayList.get(b).add(a);
+            inputArr = br.readLine().split(" ");
+            int a = Integer.parseInt(inputArr[0]);
+            int b = Integer.parseInt(inputArr[1]);
+            graph.get(a).add(b);
+            graph.get(b).add(a);
         }
-        arrive = false;
-
         for (int i = 0; i < n; i++) {
-            DFS(i, 1);
-            if(arrive) break;
+            DFS(1, i);
         }
-        if(arrive) System.out.println(1);
+        if(isFound) System.out.println(1);
         else System.out.println(0);
+    }
+
+    public static void DFS(int L, int now){
+        if(isFound) return;
+
+        if(L==5){
+            isFound = true;
+            return;
+        }else{
+            ch[now] = 1;
+            for(int i : graph.get(now)){
+                if(ch[i]==0){
+                    DFS(L+1, i);
+                }
+            }
+            ch[now] = 0;
+        }
     }
 }
