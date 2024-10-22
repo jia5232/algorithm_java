@@ -5,22 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ReverseSpecialWord {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = br.readLine();
-        char[] s = str.toCharArray();
-        int lt = 0, rt = str.length()-1;
+        char[] charArr = br.readLine().toCharArray();
+        int lt = 0, rt = charArr.length-1;
         while (lt<rt){
-            if(!Character.isAlphabetic(s[lt])) lt++;
-            else if(!Character.isAlphabetic(s[rt])) rt--;
+            if(!Character.isAlphabetic(charArr[lt])) lt++;
+            else if(!Character.isAlphabetic(charArr[rt])) rt--;
             else{
-                char tmp = s[lt];
-                s[lt] = s[rt];
-                s[rt] = tmp;
+                char tmp = charArr[lt];
+                charArr[lt] = charArr[rt];
+                charArr[rt] = tmp;
                 lt++;
                 rt--;
             }
         }
-        System.out.println(String.valueOf(s));
+        System.out.println(String.valueOf(charArr));
     }
 }

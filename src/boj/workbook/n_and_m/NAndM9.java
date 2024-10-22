@@ -1,50 +1,50 @@
 package boj.workbook.n_and_m;
 
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class NAndM9 {
     static int n, m;
-    static int[] arr;
-    static int[] pm;
-    static int[] ch;
+    static int[] pm, intArr, ch;
+    static StringBuilder sb;
 
-    static List<String> list;
-
-    public static void permutation(int L){
+    public static void DFS(int L){
         if(L==m){
-            String tmp = "";
-            for (int i : pm) {
-                tmp+=(i+" ");
+            for(int i : pm){
+                sb.append(intArr[i]).append(" ");
             }
-            list.add(tmp);
-        }
-        else{
+            sb.append("\n");
+        } else {
             int t = -1;
             for (int i = 0; i < n; i++) {
-                if(ch[i]==0 && t != arr[i]){
+                if(ch[i]==0 && intArr[i]!=t){
                     ch[i] = 1;
-                    pm[L] = arr[i];
-                    permutation(L+1);
+                    pm[L] = i;
+                    DFS(L+1);
+                    t = intArr[i];
                     ch[i] = 0;
-                    t = arr[i];
                 }
             }
         }
     }
 
-    public static void main(String[] args) {
-        list = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputArr = br.readLine().split(" ");
+        n = Integer.parseInt(inputArr[0]);
+        m = Integer.parseInt(inputArr[1]);
         pm = new int[m];
         ch = new int[n];
-        arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        Arrays.sort(arr);
-        permutation(0);
-        for (String s : list) {
-            System.out.println(s);
+        intArr = new int[n];
+        inputArr = br.readLine().split(" ");
+        for (int i = 0; i < n; i++) {
+            intArr[i] = Integer.parseInt(inputArr[i]);
         }
+        Arrays.sort(intArr);
+        sb = new StringBuilder();
+        DFS(0);
+        System.out.println(sb);
     }
 }

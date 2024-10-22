@@ -1,45 +1,42 @@
 package boj.workbook.n_and_m;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class NAndM6 {
     static int n, m;
-    static int[] arr;
-    static int[] ch;
-    static int[] pm;
+    static int[] pm, intArr;
     static StringBuilder sb;
 
-    public static void permutation(int L, int index){
+    public static void DFS(int L, int s){
         if(L==m){
-            for (int i : pm) {
-                sb.append(i+" ");
+            for(int i : pm){
+                sb.append(intArr[i]).append(" ");
             }
             sb.append("\n");
-        }
-        else{
-            for (int i = index; i < n; i++) {
-                if(ch[i]==0){
-                    ch[i] = 1;
-                    pm[L] = arr[i];
-                    permutation(L+1, i+1);
-                    ch[i] = 0;
-                }
+        } else {
+            for(int i=s; i<n; i++){
+                pm[L] = i;
+                DFS(L+1, i+1);
             }
         }
     }
-
-    public static void main(String[] args) {
-        sb = new StringBuilder();
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputArr = br.readLine().split(" ");
+        n = Integer.parseInt(inputArr[0]);
+        m = Integer.parseInt(inputArr[1]);
+        inputArr = br.readLine().split(" ");
+        intArr = new int[n];
+        for (int i = 0; i < n; i++) {
+            intArr[i] = Integer.parseInt(inputArr[i]);
+        }
+        Arrays.sort(intArr);
         pm = new int[m];
-        ch = new int[n];
-        arr = new int[n];
-        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
-        Arrays.sort(arr);
-        permutation(0, 0);
+        sb = new StringBuilder();
+        DFS(0, 0);
         System.out.println(sb);
     }
 }

@@ -11,8 +11,8 @@ public class NAndM1 {
     public static void DFS(int L){
         if(L==m){
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < pm.length; i++) {
-                sb.append(pm[i]).append(" ");
+            for(int i : pm){
+                sb.append(i).append(" ");
             }
             System.out.println(sb);
         } else {
@@ -26,7 +26,8 @@ public class NAndM1 {
             }
         }
     }
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] inputArr = br.readLine().split(" ");
         n = Integer.parseInt(inputArr[0]);

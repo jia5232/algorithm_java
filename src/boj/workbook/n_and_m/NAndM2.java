@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 public class NAndM2 {
     static int n, m;
-    static int[] ch, pm, arr;
+    static int[] pm, ch;
 
     public static void DFS(int L, int s){
         if(L==m){
@@ -16,28 +16,23 @@ public class NAndM2 {
             }
             System.out.println(sb);
         } else {
-            for (int i = s; i < n; i++) {
+            for (int i = s; i <= n; i++) {
                 if(ch[i]==0){
                     ch[i] = 1;
-                    pm[L] = arr[i];
+                    pm[L] = i;
                     DFS(L+1, i+1);
                     ch[i] = 0;
                 }
             }
         }
     }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] inputArr = br.readLine().split(" ");
         n = Integer.parseInt(inputArr[0]);
         m = Integer.parseInt(inputArr[1]);
-        ch = new int[n];
-        arr = new int[n];
         pm = new int[m];
-        for (int i = 0; i < n; i++) {
-            arr[i] = i+1;
-        }
-        DFS(0, 0);
+        ch = new int[n+1];
+        DFS(0, 1);
     }
 }

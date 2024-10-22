@@ -6,12 +6,11 @@ import java.io.InputStreamReader;
 public class FindString {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = br.readLine();
-        String target = br.readLine();
+        String[] str = br.readLine().split("");
+        String s = br.readLine();
         int answer = 0;
-        for (int i = 0; i < str.length(); i++) {
-            String tmp = String.valueOf(str.charAt(i));
-            if(tmp.equalsIgnoreCase(target)) answer++;
+        for (int i = 0; i < str.length; i++) {
+            if(str[i].equalsIgnoreCase(s)) answer++;
         }
         System.out.println(answer);
     }
