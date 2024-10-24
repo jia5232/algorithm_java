@@ -26,17 +26,20 @@ public class S18352 {
             int b = Integer.parseInt(inputArr[1]);
             graph.get(a).add(b);
         }
-        int[] ch = new int[n+1];
-        Queue<Integer> queue = new LinkedList<>();
         ArrayList<Integer> answer = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
         queue.add(x);
+        int[] ch = new int[n+1];
         ch[x] = 1;
+        boolean isFound = false;
         int level = 0;
         while (!queue.isEmpty()){
+            if(isFound) break;
             int size = queue.size();
             for (int i = 0; i < size; i++) {
                 int now = queue.poll();
                 if(level==k){
+                    isFound = true;
                     answer.add(now);
                 }
                 for(int next : graph.get(now)){
@@ -48,13 +51,13 @@ public class S18352 {
             }
             level++;
         }
-        if(answer.size()==0){
-            System.out.println(-1);
+        Collections.sort(answer);
+        if(isFound){
+            StringBuilder sb = new StringBuilder();
+            for(int i : answer) sb.append(i).append("\n");
+            System.out.println(sb);
         } else {
-            Collections.sort(answer);
-            for(int i : answer){
-                System.out.println(i);
-            }
+            System.out.println(-1);
         }
     }
 }
