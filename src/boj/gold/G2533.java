@@ -11,11 +11,12 @@ public class G2533 {
     static int[] ch;
     static int[][] dp;
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException  {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         ch = new int[n+1];
         dp = new int[n+1][2];
+
         for (int i = 0; i <= n; i++) {
             graph.add(new ArrayList<>());
         }
@@ -36,11 +37,11 @@ public class G2533 {
         dp[num][0] = 0;
         dp[num][1] = 1;
 
-        for(int next : graph.get(num)){
-            if(ch[next]==0){
-                DFS(next);
-                dp[num][0] += dp[next][1];
-                dp[num][1] += Math.min(dp[next][0], dp[next][1]);
+        for(int i : graph.get(num)){
+            if(ch[i]==0){
+                DFS(i);
+                dp[num][0] += dp[i][1];
+                dp[num][1] += Math.min(dp[i][0], dp[i][1]);
             }
         }
     }
