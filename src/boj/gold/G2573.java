@@ -9,10 +9,8 @@ import java.util.Queue;
 public class G2573 {
     static int n, m;
     static int[][] board, melting;
-
     static int[] dr = {-1, 1, 0, 0};
     static int[] dc = {0, 0, -1, 1};
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] inputArr = br.readLine().split(" ");
@@ -25,84 +23,80 @@ public class G2573 {
                 board[i][j] = Integer.parseInt(inputArr[j]);
             }
         }
-        int time = 0;
-        boolean separated = false;
-        while (true){
-            if(separated) break;
 
-            int meltingCount = findMelting();
-            if(meltingCount==0) break;
-            else time++;
+        int time = 0;
+        boolean isFound = false;
+        while (true){
+            time++;
+            int num = meltingIce();
+            if(num==0) break;
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
-                    if(melting[i][j]>0){
-                        board[i][j] = Math.max(0, board[i][j]-melting[i][j]);
-                    }
+                    int next = board[i][j] - melting[i][j];
+                    if(next<0) board[i][j] = 0;
+                    else board[i][j] = next;
                 }
             }
 
-            int loafCount = findLoaf();
-            if(loafCount>1){
-                separated = true;
+            int loafs = getLoaf();
+            if(loafs>=2){
+                isFound = true;
                 break;
             }
         }
-        if(separated) System.out.println(time);
+        if(isFound) System.out.println(time);
         else System.out.println(0);
     }
 
-    public static int findMelting(){
+    public static int meltingIce(){
+        int answer = 0;
         melting = new int[n][m];
-        int meltingCount = 0;
-
-        for (int i = 0; i < n; i++) {
+        for(int i=0; i<n; i++){
             for (int j = 0; j < m; j++) {
-                if(board[i][j] > 0){
-                    int count = 0;
+                if(board[i][j]>0){
+                    int sideIce = 0;
                     for (int k = 0; k < 4; k++) {
                         int nr = i + dr[k];
                         int nc = j + dc[k];
                         if(nr>=0 && nr<n && nc>=0 && nc<m && board[nr][nc]==0){
-                            count++;
+                            sideIce++;
                         }
                     }
-                    melting[i][j] = count;
-                    if(count>0) meltingCount++;
+                    if(sideIce>0){
+                        answer++;
+                        melting[i][j] = sideIce;
+                    }
                 }
             }
         }
-        return meltingCount;
+        return answer;
     }
 
-    public static int findLoaf(){
-        int loafCount = 0;
-        int[][] visited = new int[n][m];
-
+    public static int getLoaf(){
+        int answer = 0;
+        int[][] ch = new int[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if(board[i][j]>0 && visited[i][j]==0){
-                    loafCount++;
+                if(board[i][j]>0 && ch[i][j]==0){
+                    ch[i][j] = 1;
+                    answer++;
                     Queue<int[]> queue = new LinkedList<>();
                     queue.add(new int[]{i, j});
-                    visited[i][j] = 1;
                     while (!queue.isEmpty()){
-                        int size = queue.size();
-                        for (int k = 0; k < size; k++) {
-                            int[] now = queue.poll();
-                            for (int l = 0; l < 4; l++) {
-                                int nr = now[0] + dr[l];
-                                int nc = now[1] + dc[l];
-                                if(nr>=0 && nr<n && nc>=0 && nc<m && visited[nr][nc]==0 && board[nr][nc]>0){
-                                    visited[nr][nc] = 1;
-                                    queue.add(new int[]{nr, nc});
-                                }
+                        int[] now = queue.poll();
+                        for (int k = 0; k < 4; k++) {
+                            int nr = now[0] + dr[k];
+                            int nc = now[1] + dc[k];
+                            if(nr>=0 && nr<n && nc>=0 && nc<m && ch[nr][nc]==0 && board[nr][nc]>0){
+                                ch[nr][nc] = 1;
+                                queue.add(new int[]{nr, nc});
                             }
                         }
                     }
                 }
             }
         }
-        return loafCount;
+        return answer;
     }
 }
