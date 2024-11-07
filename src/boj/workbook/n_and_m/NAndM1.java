@@ -8,6 +8,16 @@ public class NAndM1 {
     static int n, m;
     static int[] pm, ch;
 
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] inputArr = br.readLine().split(" ");
+        n = Integer.parseInt(inputArr[0]);
+        m = Integer.parseInt(inputArr[1]);
+        pm = new int[m];
+        ch = new int[n+1];
+        DFS(0);
+    }
+
     public static void DFS(int L){
         if(L==m){
             StringBuilder sb = new StringBuilder();
@@ -25,15 +35,5 @@ public class NAndM1 {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] inputArr = br.readLine().split(" ");
-        n = Integer.parseInt(inputArr[0]);
-        m = Integer.parseInt(inputArr[1]);
-        ch = new int[n+1];
-        pm = new int[m];
-        DFS(0);
     }
 }
