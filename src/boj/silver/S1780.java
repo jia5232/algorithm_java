@@ -25,31 +25,29 @@ public class S1780 {
         System.out.println(positive);
     }
 
-    public static void checkPaper(int r, int c, int size){
-        if(isPossible(r, c, size)){
-            int paperNUm = board[r][c];
-            if(paperNUm==-1) negative++;
-            else if(paperNUm==0) zero++;
+    public static void checkPaper(int r, int c, int size) {
+        if (isAllSame(r, c, size)) {
+            int now = board[r][c];
+            if (now == -1) negative++;
+            else if (now == 0) zero++;
             else positive++;
         } else {
-            int newSize = size/3;
+            int newSize = size / 3;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    checkPaper(r+(i*newSize), c+(j*newSize), newSize);
+                    checkPaper(r + (i * newSize), c + (j * newSize), newSize);
                 }
             }
         }
     }
 
-    public static boolean isPossible(int r, int c, int size){
+    public static boolean isAllSame(int r, int c, int size) {
         int start = board[r][c];
-
         for (int i = r; i < r + size; i++) {
             for (int j = c; j < c + size; j++) {
-                if(board[i][j]!=start) return false;
+                if (board[i][j] != start) return false;
             }
         }
-
         return true;
     }
 }

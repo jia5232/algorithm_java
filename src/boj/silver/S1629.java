@@ -16,16 +16,16 @@ public class S1629 {
         System.out.println(pow(a, b));
     }
 
-    public static long pow(long a, long exponent){
+    public static long pow(long num, long exponent){
         if(exponent==1){
-            return a%c;
+            return num%c;
         }
 
-        long tmp = pow(a, exponent/2);
+        long tmp = pow(num, exponent/2);
 
         if(exponent%2==1){
-            return (tmp * tmp % c) * a % c;
-        } else {
+            return tmp * tmp % c * a % c;
+        }else{
             return tmp * tmp % c;
         }
     }
